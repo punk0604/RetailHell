@@ -1,0 +1,72 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
+using UnityEngine.SceneManagement;
+
+public class MainMenuController : MonoBehaviour
+{
+    public Button[] menuButtons; // Array of menu buttons
+    private int selectedIndex = 0; // Keeps track of which button is selected
+
+    void Start()
+    {
+        HighlightButton(); // Ensure the first button is highlighted
+    }
+
+    void Update()
+    {
+        // Navigate Down
+        if (Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            selectedIndex = (selectedIndex + 1) % menuButtons.Length;
+            HighlightButton();
+        }
+
+        // Navigate Up
+        if (Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            selectedIndex = (selectedIndex - 1 + menuButtons.Length) % menuButtons.Length;
+            HighlightButton();
+        }
+
+        // Select Option
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            menuButtons[selectedIndex].onClick.Invoke(); // Simulate a button click
+        }
+    }
+
+     void HighlightButton()
+    {
+        // Reset all button texts to default
+        foreach (Button button in menuButtons)
+        {
+            TextMeshProUGUI buttonText = button.GetComponentInChildren<TextMeshProUGUI>();
+            buttonText.color = Color.white; // Default color
+            buttonText.fontStyle = FontStyles.Normal; // Remove underline/bold
+        }
+
+        // Highlight selected button's text
+        TextMeshProUGUI selectedText = menuButtons[selectedIndex].GetComponentInChildren<TextMeshProUGUI>();
+        selectedText.color = Color.yellow; // Highlight color
+        selectedText.fontStyle = FontStyles.Bold | FontStyles.Underline; // Bold + Underline for emphasis
+    }
+
+    public void StartGame()
+    {
+        Debug.Log("Start Game"); // Placeholder for starting the game
+    }
+
+    public void LoadOptions()
+    {
+        Debug.Log("Load Options Menu"); // Placeholder for loading options
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit(); // Quit the application
+        Debug.Log("Game Quit"); // Log for debugging purposes
+    }
+}

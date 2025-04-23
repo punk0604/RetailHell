@@ -3,12 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-
 [ExecuteInEditMode]
-
 public class ProgressBar : MonoBehaviour
 {
-
     [Header("Title Setting")]
     public string Title;
     public Color TitleColor;
@@ -16,52 +13,40 @@ public class ProgressBar : MonoBehaviour
     public int TitleFontSize = 10;
 
     [Header("Bar Setting")]
-    public Color BarColor;   
+    public Color BarColor;
     public Color BarBackGroundColor;
     public Sprite BarBackGroundSprite;
     [Range(1f, 100f)]
     public int Alert = 20;
     public Color BarAlertColor;
 
-    [Header("Sound Alert")]
-    public AudioClip sound;
-    public bool repeat = false;
-    public float RepeatRate = 1f;
-
     [Header("Flashing Effect")]
     public bool enableFlashing = true;
     public float flashSpeed = 2f;
 
-
     private Image bar, barBackground;
-    private float nextPlay;
-    private AudioSource audiosource;
     private Text txtTitle;
     private bool isFlashing = false;
     private float flashTimer = 0f;
+    private bool isGameOver = false;
     private float barValue;
+
     public float BarValue
     {
         get { return barValue; }
-
         set
         {
             value = Mathf.Clamp(value, 0, 100);
             barValue = value;
             UpdateValue(barValue);
-
         }
     }
-
-        
 
     private void Awake()
     {
         bar = transform.Find("Bar").GetComponent<Image>();
-        barBackground = GetComponent<Image>();
-        txtTitle = transform.Find("Text").GetComponent<Text>();
         barBackground = transform.Find("BarBackground").GetComponent<Image>();
-        audiosource = GetComponent<AudioSource>();
+        txtTitle = transform.Find("Text").GetComponent<Text>();
     }
 
     private void Start()
@@ -72,12 +57,10 @@ public class ProgressBar : MonoBehaviour
         txtTitle.fontSize = TitleFontSize;
 
         bar.color = BarColor;
-        barBackground.color = BarBackGroundColor; 
+        barBackground.color = BarBackGroundColor;
         barBackground.sprite = BarBackGroundSprite;
 
         UpdateValue(barValue);
-
-
     }
 
     void UpdateValue(float val)
@@ -93,14 +76,12 @@ public class ProgressBar : MonoBehaviour
         {
             bar.color = BarColor;
         }
-
     }
-
 
     private void Update()
     {
         if (!Application.isPlaying)
-        {           
+        {
             UpdateValue(50);
             txtTitle.color = TitleColor;
             txtTitle.font = TitleFont;
@@ -108,18 +89,11 @@ public class ProgressBar : MonoBehaviour
 
             bar.color = BarColor;
             barBackground.color = BarBackGroundColor;
-
-            barBackground.sprite = BarBackGroundSprite;           
+            barBackground.sprite = BarBackGroundSprite;
         }
         else
         {
-            if (Alert >= barValue && Time.time > nextPlay)
-            {
-                nextPlay = Time.time + RepeatRate;
-                audiosource.PlayOneShot(sound);
-            }
-
-            // 🔁 Flashing effect
+            // Flashing when 75% or more
             if (enableFlashing && barValue >= 75f)
             {
                 isFlashing = true;
@@ -137,7 +111,15 @@ public class ProgressBar : MonoBehaviour
                 Color flashColor = Color.Lerp(BarAlertColor, new Color(BarAlertColor.r, BarAlertColor.g, BarAlertColor.b, 0.3f), lerp);
                 bar.color = flashColor;
             }
+
+            // Game Over trigger
+            if (!isGameOver && barValue >= 100f)
+            {
+                isGameOver = true;
+                Debug.Log("Game Over");
+            }
         }
     }
 }
+
 

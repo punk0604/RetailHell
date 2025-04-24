@@ -6,14 +6,10 @@ public class ShiftSystem : MonoBehaviour
     public enum ShiftPhase { Opening, Active, Closing, Break }
     public ShiftPhase currentPhase;
 
-    [Header("Phase Timing")]
-    public float activeShiftDuration = 300f; // 5 minutes
-    private float shiftTimer;
-
     [Header("References")]
     public GameObject openingTasks;
     public GameObject closingTasks;
-    public GameObject customerManager;
+    public CustomerManager customerManager;
 
     private void Start()
     {
@@ -32,8 +28,9 @@ public class ShiftSystem : MonoBehaviour
                 break;
 
             case ShiftPhase.Active:
-                shiftTimer -= Time.deltaTime;
-                if (shiftTimer <= 0f)
+                // ✅ Let CustomerManager handle spawn timing
+                // Just check when all customers are gone
+                if (customerManager != null && customerManager.IsSpawningComplete() && customerManager.AllCustomersCompleted())
                 {
                     StartClosing();
                 }
@@ -46,10 +43,6 @@ public class ShiftSystem : MonoBehaviour
                 }
                 break;
         }
-
-        // Optional debug keys
-        if (Input.GetKeyDown(KeyCode.O)) CompleteOpening();
-        if (Input.GetKeyDown(KeyCode.C)) CompleteClosing();
     }
 
     void StartOpening()
@@ -57,9 +50,7 @@ public class ShiftSystem : MonoBehaviour
         currentPhase = ShiftPhase.Opening;
         openingTasks.SetActive(true);
         closingTasks.SetActive(false);
-        customerManager.SetActive(false); // 🔒 Prevent spawning
-
-        Debug.Log("Shift started: Opening phase.");
+        customerManager.gameObject.SetActive(false);
     }
 
     void CompleteOpening()
@@ -71,32 +62,23 @@ public class ShiftSystem : MonoBehaviour
     void StartActiveShift()
     {
         currentPhase = ShiftPhase.Active;
-        shiftTimer = activeShiftDuration;
-
-        customerManager.SetActive(true); // ✅ Customers now spawn
-        Debug.Log("Opening complete. Active shift started.");
+        customerManager.gameObject.SetActive(true);
+        customerManager.StartSpawning(); // ✅ Let CustomerManager handle its own timing
+        Debug.Log("Active shift started: Customers will spawn internally for 2 minutes.");
     }
 
     void StartClosing()
     {
         currentPhase = ShiftPhase.Closing;
-        customerManager.SetActive(false);
         closingTasks.SetActive(true);
-
-        Debug.Log("Active shift complete. Closing tasks started.");
+        Debug.Log("All customers completed. Closing tasks started.");
     }
 
     void CompleteClosing()
     {
         closingTasks.SetActive(false);
-        GoToBreakRoom();
-    }
-
-    void GoToBreakRoom()
-    {
-        currentPhase = ShiftPhase.Break;
-        Debug.Log("Shift complete. Loading breakroom...");
         //SceneManager.LoadScene("BreakRoom");
+        Debug.Log("Shift ended. Send to Breakroom.");
     }
 
     bool AllTasksComplete(GameObject taskParent)
@@ -108,5 +90,7 @@ public class ShiftSystem : MonoBehaviour
         return true;
     }
 }
+
+
 
 

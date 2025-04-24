@@ -8930,10 +8930,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentPhase: 0
-  activeShiftDuration: 300
   openingTasks: {fileID: 13048078}
   closingTasks: {fileID: 1978524238}
-  customerManager: {fileID: 1259005597}
+  customerManager: {fileID: 1259005598}
 --- !u!114 &425491609
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28949,6 +28948,7 @@ MonoBehaviour:
   spawnPoints:
   - {fileID: 918722538}
   spawnInterval: 5
+  spawnDuration: 120
 --- !u!4 &1259005599
 Transform:
   m_ObjectHideFlags: 0

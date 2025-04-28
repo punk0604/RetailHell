@@ -7,7 +7,7 @@ public class CustomerManager : MonoBehaviour
     public GameObject customerPrefab;
     public Transform[] spawnPoints;
     public float spawnInterval = 5f;
-    public float spawnDuration = 120f; // Total allowed spawning time (2 minutes)
+    public float spawnDuration = 60f; // Total allowed spawning time (2 minutes)
 
     private float spawnTimer = 0f;
     private float intervalTimer = 0f;

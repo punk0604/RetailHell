@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Product
   - QuitObject
+  - ShelfItem
   layers:
   - Default
   - TransparentFX

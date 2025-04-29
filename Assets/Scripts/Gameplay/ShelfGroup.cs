@@ -9,10 +9,22 @@ public class ShelfGroup : MonoBehaviour
 
     private void Start()
     {
-        shelfManager = FindObjectOfType<ShelfManager>();
+        // Auto-find ShelfManager if not manually assigned
+        //shelfManager = FindObjectOfType<ShelfManager>();
 
-        // Find all ShelfItems under this shelf
+        //if (shelfManager == null)
+        //{
+        //    Debug.LogError("ShelfGroup: No ShelfManager found in the scene!");
+        //}
+
+        // Find all ShelfItems under this ShelfGroup
         ShelfItem[] items = GetComponentsInChildren<ShelfItem>();
+
+        if (items.Length == 0)
+        {
+            Debug.LogWarning($"ShelfGroup '{gameObject.name}' has no ShelfItems!");
+        }
+
         foreach (ShelfItem item in items)
         {
             shelfItems.Add(item);
@@ -21,17 +33,19 @@ public class ShelfGroup : MonoBehaviour
 
     private void Update()
     {
-        if (playerInZone && Input.GetKeyDown(KeyCode.E))
+        if (!playerInZone) return;
+
+        if (Input.GetKeyDown(KeyCode.E))
         {
             if (shelfManager != null && shelfManager.CanRestock())
             {
                 RestockAllItems();
                 shelfManager.LockRestocking();
-                Debug.Log($"✅ Shelf '{gameObject.name}' restocked via trigger!");
+                Debug.Log($"✅ ShelfGroup '{gameObject.name}' restocked via player interaction.");
             }
             else
             {
-                Debug.LogWarning("🚫 Cannot restock. Visit stockpile first.");
+                Debug.Log("🚫 Cannot restock shelf. Must return to stockpile first.");
             }
         }
     }
@@ -45,6 +59,8 @@ public class ShelfGroup : MonoBehaviour
                 item.RestockItem();
             }
         }
+
+        Debug.Log($"✅ All ShelfItems in '{gameObject.name}' have been restocked.");
     }
 
     private void OnTriggerEnter(Collider other)
@@ -52,7 +68,7 @@ public class ShelfGroup : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerInZone = true;
-            Debug.Log($"Player entered shelf zone: {gameObject.name}");
+            Debug.Log($"ShelfGroup: Player entered restocking zone '{gameObject.name}'.");
         }
     }
 
@@ -61,7 +77,8 @@ public class ShelfGroup : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerInZone = false;
-            Debug.Log($"Player exited shelf zone: {gameObject.name}");
+            Debug.Log($"ShelfGroup: Player exited restocking zone '{gameObject.name}'.");
         }
     }
 }
+

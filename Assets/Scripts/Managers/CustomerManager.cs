@@ -97,6 +97,12 @@ public class CustomerManager : MonoBehaviour
 
         Debug.Log("CustomerManager: New customer added. Active queue count: " + activeCustomers.Count);
     }
+
+    public int GetRemainingCustomers()
+    {
+        return activeCustomers.Count;
+    }
+
 }
 
 

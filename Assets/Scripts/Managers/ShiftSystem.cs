@@ -7,10 +7,14 @@ public class ShiftSystem : MonoBehaviour
     public ShiftPhase currentPhase;
 
     [Header("References")]
-    public GameObject openingTasks;
-    public GameObject closingTasks;
+    public GameObject openingTaskUI; // 🟡 Just the UI (not physical tasks)
+    public GameObject closingTaskUI; // 🟡 Just the UI (not physical tasks)
+
+    public GameObject openingTasks; // 🟢 Parent of physical task scripts (DON'T deactivate)
+    public GameObject closingTasks; // 🟢 Parent of physical task scripts (DON'T deactivate)
+
     public CustomerManager customerManager;
-    public ShelfManager shelfManager; // ✅ Reference here
+    public ShelfManager shelfManager;
 
     private void Start()
     {
@@ -31,8 +35,7 @@ public class ShiftSystem : MonoBehaviour
             case ShiftPhase.Active:
                 if (customerManager != null && customerManager.IsSpawningComplete())
                 {
-                    // ✅ Customers stop spawning after 2 minutes
-                    StopActivePhase(); 
+                    StopActivePhase();
                 }
                 break;
 
@@ -55,28 +58,31 @@ public class ShiftSystem : MonoBehaviour
     void StartOpening()
     {
         currentPhase = ShiftPhase.Opening;
-        openingTasks.SetActive(true);
-        closingTasks.SetActive(false);
+
+        if (openingTaskUI != null) openingTaskUI.SetActive(true);
+        if (closingTaskUI != null) closingTaskUI.SetActive(false);
 
         customerManager.gameObject.SetActive(false);
+
         if (shelfManager != null)
-            shelfManager.StopRemovingItems(); // 🔥 No shelf removal during Opening
+            shelfManager.StopRemovingItems();
     }
 
     void CompleteOpening()
     {
-        openingTasks.SetActive(false);
+        if (openingTaskUI != null) openingTaskUI.SetActive(false);
         StartActiveShift();
     }
 
     void StartActiveShift()
     {
         currentPhase = ShiftPhase.Active;
+
         customerManager.gameObject.SetActive(true);
         customerManager.StartSpawning();
 
         if (shelfManager != null)
-            shelfManager.StartRemovingItems(); // ✅ Start damaging shelves
+            shelfManager.StartRemovingItems();
 
         Debug.Log("Active shift started: Customers spawning + shelf items disappearing.");
     }
@@ -86,7 +92,7 @@ public class ShiftSystem : MonoBehaviour
         customerManager.StopSpawning();
 
         if (shelfManager != null)
-            shelfManager.StopRemovingItems(); // ✅ STOP removing shelf items immediately
+            shelfManager.StopRemovingItems();
 
         Debug.Log("ShiftSystem: Spawning and shelf removal ended. Waiting for customers to clear.");
 
@@ -96,26 +102,32 @@ public class ShiftSystem : MonoBehaviour
     void StartClosing()
     {
         currentPhase = ShiftPhase.Closing;
-        closingTasks.SetActive(true);
+
+        if (closingTaskUI != null) closingTaskUI.SetActive(true);
 
         Debug.Log("ShiftSystem: All customers completed. Closing tasks started.");
     }
 
     void CompleteClosing()
     {
-        closingTasks.SetActive(false);
-        Debug.Log("Shift ended. Send to Breakroom.");
-        //SceneManager.LoadScene("BreakRoom"); // Uncomment if ready
+        if (closingTaskUI != null) closingTaskUI.SetActive(false);
+        Debug.Log("✅ Shift ended. Send to Breakroom.");
+        //SceneManager.LoadScene("BreakRoom");
     }
 
     bool AllTasksComplete(GameObject taskParent)
     {
-        foreach (Transform child in taskParent.transform)
+        ShiftTask[] tasks = taskParent.GetComponentsInChildren<ShiftTask>(true);
+
+        foreach (ShiftTask task in tasks)
         {
-            if (child.gameObject.activeSelf) return false;
+            if (task.TaskPhase == currentPhase && !task.IsTaskComplete())
+                return false;
         }
+
         return true;
     }
 }
+
 
 

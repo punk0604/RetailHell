@@ -15,6 +15,7 @@ public class StartMenuController : MonoBehaviour
 
     void LoadMainMenu()
     {
+        GameObject.Find("UI button sound").GetComponent<AudioSource>().Play(); //plays ui button sound
         SceneManager.LoadScene("MainMenu"); // Change scene to MainMenu
     }
 }

@@ -30,6 +30,7 @@ public class ShopDoorInteraction : MonoBehaviour
         {
             playerInRange = true;
             Debug.Log("Player entered door range.");
+            InteractionPromptUI.Instance?.Show("Press E to Leave");
         }
     }
 
@@ -38,6 +39,7 @@ public class ShopDoorInteraction : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerInRange = false;
+            InteractionPromptUI.Instance?.Hide();
 
             if (ShopDoorUI != null)
             {

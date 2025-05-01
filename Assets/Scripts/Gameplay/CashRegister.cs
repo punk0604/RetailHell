@@ -39,11 +39,13 @@ public class CashRegister : MonoBehaviour, ShiftTask
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player")) playerInRange = true;
+        InteractionPromptUI.Instance?.Show("Press E to Interact");
     }
 
     private void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Player")) playerInRange = false;
+        InteractionPromptUI.Instance?.Hide();
     }
 }
 

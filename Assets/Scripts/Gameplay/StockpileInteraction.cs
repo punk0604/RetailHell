@@ -13,27 +13,18 @@ public class StockpileInteraction : MonoBehaviour
     {
         if (playerInRange && Input.GetKeyDown(KeyCode.E))
         {
-            Debug.Log("Player pressed E near the stockpile.");
-
             if (shiftSystem.currentPhase == ShiftSystem.ShiftPhase.Closing)
             {
-                if (!stockpileAccessed)
-                {
-                    stockpileAccessed = true;
-                    shelfManager.EnableRestocking();
-                    Debug.Log("✅ Stockpile: Player accessed stockpile. Restocking now enabled.");
-                }
-                else
-                {
-                    Debug.LogWarning("⚠️ Stockpile: Player already accessed stockpile. No need to do it again.");
-                }
+                shelfManager.EnableRestocking(); // ✅ Can do this every time
+                Debug.Log("✅ Stockpile: Restocking enabled.");
             }
             else
             {
-                Debug.LogWarning($"🚫 Stockpile: Cannot access stockpile right now! Current phase is: {shiftSystem.currentPhase}");
+                Debug.LogWarning($"🚫 Stockpile: Cannot access during {shiftSystem.currentPhase}.");
             }
         }
     }
+
 
     private void OnTriggerEnter(Collider other)
     {
@@ -41,6 +32,7 @@ public class StockpileInteraction : MonoBehaviour
         {
             playerInRange = true;
             Debug.Log("Stockpile: Player ENTERED stockpile area.");
+            InteractionPromptUI.Instance?.Show("Press E to Grab Items");
         }
     }
 
@@ -50,6 +42,7 @@ public class StockpileInteraction : MonoBehaviour
         {
             playerInRange = false;
             Debug.Log("Stockpile: Player EXITED stockpile area.");
+            InteractionPromptUI.Instance?.Hide();
         }
     }
 }

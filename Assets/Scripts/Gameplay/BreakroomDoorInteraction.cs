@@ -30,6 +30,7 @@ public class BreakroomDoorInteraction : MonoBehaviour
         {
             playerInRange = true;
             Debug.Log("Player entered door range.");
+            InteractionPromptUI.Instance?.Show("Press E to Return to Store");
         }
     }
 
@@ -38,6 +39,7 @@ public class BreakroomDoorInteraction : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerInRange = false;
+            InteractionPromptUI.Instance?.Hide();
 
             if (BRdoorUI != null)
             {

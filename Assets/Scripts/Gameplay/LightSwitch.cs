@@ -60,12 +60,14 @@ public class LightSwitch : MonoBehaviour, ShiftTask
     {
         if (other.CompareTag("Player"))
             playerInRange = true;
+            InteractionPromptUI.Instance?.Show("Press E to Flip Switch");
     }
 
     private void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Player"))
             playerInRange = false;
+            InteractionPromptUI.Instance?.Hide();
     }
 }
 

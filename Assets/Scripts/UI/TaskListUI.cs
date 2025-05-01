@@ -58,7 +58,7 @@ public class TaskListUI : MonoBehaviour
                 break;
 
             case ShiftSystem.ShiftPhase.Closing:
-                AddTask("Turn off Lights", !lightSwitch.IsTaskComplete());
+                AddTask("Turn off Lights", lightSwitch.IsTaskComplete());
                 AddTask("Close Registers", CountCompleted(closingRegisters), closingRegisters.Length);
                 AddRestockProgress();
                 break;
@@ -128,10 +128,11 @@ public class TaskListUI : MonoBehaviour
             case ShiftSystem.ShiftPhase.Closing:
                 if (currentTasks.ContainsKey("Turn off Lights"))
                 {
-                    bool lightsOff = !lightSwitch.IsTaskComplete();
-                    currentTasks["Turn off Lights"].text = lightsOff
+                    bool isComplete = lightSwitch.IsTaskComplete();
+                    currentTasks["Turn off Lights"].text = isComplete
                         ? "<s>Turn off Lights</s>"
                         : "Turn off Lights";
+
                 }
 
                 if (currentTasks.ContainsKey("Close Registers"))

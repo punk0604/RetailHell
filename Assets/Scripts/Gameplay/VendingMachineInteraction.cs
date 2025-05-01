@@ -30,6 +30,7 @@ public class VendingMachineInteraction : MonoBehaviour
         {
             playerInRange = true;
             Debug.Log("Player entered vending machine range.");
+            InteractionPromptUI.Instance?.Show("Press E for Vending Machine");
         }
     }
 
@@ -45,6 +46,7 @@ public class VendingMachineInteraction : MonoBehaviour
             }
 
             Debug.Log("Player left vending machine range.");
+            InteractionPromptUI.Instance?.Hide();
         }
     }
 }

@@ -7,11 +7,11 @@ public class ShiftSystem : MonoBehaviour
     public ShiftPhase currentPhase;
 
     [Header("References")]
-    public GameObject openingTaskUI; // 🟡 Just the UI (not physical tasks)
-    public GameObject closingTaskUI; // 🟡 Just the UI (not physical tasks)
+    public GameObject openingTaskUI; // Just the UI (not physical tasks)
+    public GameObject closingTaskUI; // Just the UI (not physical tasks)
 
-    public GameObject openingTasks; // 🟢 Parent of physical task scripts (DON'T deactivate)
-    public GameObject closingTasks; // 🟢 Parent of physical task scripts (DON'T deactivate)
+    public GameObject openingTasks; // Parent of physical task scripts (DON'T deactivate)
+    public GameObject closingTasks; // Parent of physical task scripts (DON'T deactivate)
 
     public CustomerManager customerManager;
     public ShelfManager shelfManager;

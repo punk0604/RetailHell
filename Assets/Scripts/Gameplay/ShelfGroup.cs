@@ -9,15 +9,13 @@ public class ShelfGroup : MonoBehaviour
 
     private void Start()
     {
-        // Auto-find ShelfManager if not manually assigned
-        //shelfManager = FindObjectOfType<ShelfManager>();
+        shelfManager = FindObjectOfType<ShelfManager>();
 
-        //if (shelfManager == null)
-        //{
-        //    Debug.LogError("ShelfGroup: No ShelfManager found in the scene!");
-        //}
+        if (shelfManager == null)
+        {
+            Debug.LogError("ShelfGroup: No ShelfManager found in the scene!");
+        }
 
-        // Find all ShelfItems under this ShelfGroup
         ShelfItem[] items = GetComponentsInChildren<ShelfItem>();
 
         if (items.Length == 0)
@@ -30,6 +28,7 @@ public class ShelfGroup : MonoBehaviour
             shelfItems.Add(item);
         }
     }
+
 
     private void Update()
     {
@@ -46,6 +45,7 @@ public class ShelfGroup : MonoBehaviour
             else
             {
                 Debug.Log("🚫 Cannot restock shelf. Must return to stockpile first.");
+                
             }
         }
     }
@@ -69,6 +69,7 @@ public class ShelfGroup : MonoBehaviour
         {
             playerInZone = true;
             Debug.Log($"ShelfGroup: Player entered restocking zone '{gameObject.name}'.");
+            InteractionPromptUI.Instance?.Show("Press E to Restock");
         }
     }
 
@@ -78,6 +79,7 @@ public class ShelfGroup : MonoBehaviour
         {
             playerInZone = false;
             Debug.Log($"ShelfGroup: Player exited restocking zone '{gameObject.name}'.");
+            InteractionPromptUI.Instance?.Hide();        
         }
     }
 }

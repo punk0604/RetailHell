@@ -17,11 +17,13 @@ public class CashRegister : MonoBehaviour, ShiftTask
         if (shiftSystem.currentPhase == ShiftSystem.ShiftPhase.Opening && !isOpened)
         {
             isOpened = true;
+            gameObject.GetComponent<AudioSource>().Play();
             Debug.Log($"✅ Register '{gameObject.name}' opened.");
         }
         else if (shiftSystem.currentPhase == ShiftSystem.ShiftPhase.Closing && !isClosed)
         {
             isClosed = true;
+            gameObject.GetComponent<AudioSource>().Play();
             Debug.Log($"✅ Register '{gameObject.name}' closed.");
         }
     }

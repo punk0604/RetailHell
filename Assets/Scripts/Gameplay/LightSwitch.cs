@@ -25,12 +25,14 @@ public class LightSwitch : MonoBehaviour, ShiftTask
         {
             lightsOn = true;
             SetLights(true);
+            GameObject.Find("light_switch").GetComponent<AudioSource>().Play();
             Debug.Log("✅ Lights turned ON.");
         }
         else if (shiftSystem.currentPhase == ShiftSystem.ShiftPhase.Closing && lightsOn)
         {
             lightsOn = false;
             SetLights(false);
+            GameObject.Find("light_switch").GetComponent<AudioSource>().Play();
             Debug.Log("✅ Lights turned OFF.");
         }
     }

@@ -42,6 +42,7 @@ public class NewBehaviourScript : MonoBehaviour
     }
     IEnumerator TypeLine()
     {
+        GameObject.Find("UI button sound").GetComponent<AudioSource>().Play();
         foreach (char c in lines[index].ToCharArray())
         {
             textComponent.text += c;

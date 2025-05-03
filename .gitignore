@@ -161,3 +161,11 @@ Thumbs.db
 /[Bb]uilds/
 /[Dd]ist/
 
+# Unity baked lighting files
+[Bb]aked*
+LightingData.asset
+Lightmap*.*
+*.exr
+*.exr.meta
+
+

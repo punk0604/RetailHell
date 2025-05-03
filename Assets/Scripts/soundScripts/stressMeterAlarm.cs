@@ -10,9 +10,4 @@ public class stressMeterAlarm : MonoBehaviour
         sound = GetComponent<AudioSource>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

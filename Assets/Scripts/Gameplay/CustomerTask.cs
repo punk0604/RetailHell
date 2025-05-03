@@ -37,8 +37,10 @@ public class CustomerTask : MonoBehaviour
     {
         taskComplete = true;
 
-        if (stressManager != null) stressManager.RemoveTask();
-        if (successful) GameManager.Instance.AddPaycheck(20);
+        /*if (stressManager != null)
+        { stressManager.RemoveTask(); }*/
+        if (successful)
+        { GameManager.Instance.AddPaycheck(20); }
 
         Destroy(gameObject);
     }

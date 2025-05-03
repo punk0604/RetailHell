@@ -104,7 +104,6 @@ public class ProgressBar : MonoBehaviour
             {
                 isFlashing = false;
                 bar.color = (Alert >= barValue) ? BarAlertColor : BarColor;
-                GameObject.Find("stressMeterAlarm").GetComponent<AudioSource>().Stop();
             }
 
             if (isFlashing)
@@ -119,6 +118,7 @@ public class ProgressBar : MonoBehaviour
             if (!isGameOver && barValue >= 100f)
             {
                 isGameOver = true;
+                GameObject.Find("stressMeterAlarm").GetComponent<AudioSource>().Stop();
                 Debug.Log("Game Over");
             }
         }

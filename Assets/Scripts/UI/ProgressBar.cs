@@ -17,7 +17,7 @@ public class ProgressBar : MonoBehaviour
     public Color BarBackGroundColor;
     public Sprite BarBackGroundSprite;
     [Range(1f, 100f)]
-    public int Alert = 20;
+    public float Alert = 75f;
     public Color BarAlertColor;
 
     [Header("Flashing Effect")]
@@ -66,9 +66,10 @@ public class ProgressBar : MonoBehaviour
     void UpdateValue(float val)
     {
         bar.fillAmount = val / 100;
+        val = (float)System.Math.Round(val, 0);
         txtTitle.text = Title + " " + val + "%";
 
-        if (Alert >= val)
+        if (Alert <= val)
         {
             bar.color = BarAlertColor;
         }
@@ -97,11 +98,13 @@ public class ProgressBar : MonoBehaviour
             if (enableFlashing && barValue >= 75f)
             {
                 isFlashing = true;
+                GameObject.Find("stressMeterAlarm").GetComponent<AudioSource>().Play();
             }
             else
             {
                 isFlashing = false;
                 bar.color = (Alert >= barValue) ? BarAlertColor : BarColor;
+                GameObject.Find("stressMeterAlarm").GetComponent<AudioSource>().Stop();
             }
 
             if (isFlashing)

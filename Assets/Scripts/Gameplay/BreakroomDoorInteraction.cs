@@ -1,25 +1,31 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class BreakroomDoorInteraction : MonoBehaviour
 {
     private bool playerInRange = false;
 
     [Header("UI Panel for Door")]
-    public GameObject BRdoorUI;
+    public GameObject exitUI; // Use GameObject for flexibility in Inspector
 
-    void Update()
+    [Header("Scene Settings")]
+    public string retailStore; // Scene to load when exiting
+
+    private void Start()
+    {
+        if (exitUI != null)
+            exitUI.SetActive(false); // Ensure UI starts hidden
+    }
+
+    private void Update()
     {
         if (playerInRange && Input.GetKeyDown(KeyCode.E))
         {
-            if (BRdoorUI != null)
+            if (exitUI != null)
             {
-                bool isActive = BRdoorUI.activeSelf;
-                BRdoorUI.SetActive(!isActive);
-                Debug.Log("Door: UI Toggled.");
-            }
-            else
-            {
-                Debug.LogWarning("Door: UI Not Assigned.");
+                bool isActive = exitUI.activeSelf;
+                exitUI.SetActive(!isActive);
+                Debug.Log("Breakroom Door: UI toggled.");
             }
         }
     }
@@ -29,8 +35,8 @@ public class BreakroomDoorInteraction : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerInRange = true;
-            Debug.Log("Player entered door range.");
-            InteractionPromptUI.Instance?.Show("Press E to Return to Store");
+            InteractionPromptUI.Instance?.Show("Press E to Exit");
+            Debug.Log("Player entered breakroom door range.");
         }
     }
 
@@ -41,12 +47,35 @@ public class BreakroomDoorInteraction : MonoBehaviour
             playerInRange = false;
             InteractionPromptUI.Instance?.Hide();
 
-            if (BRdoorUI != null)
-            {
-                BRdoorUI.SetActive(false); // Optional: hide UI when leaving
-            }
+            if (exitUI != null)
+                exitUI.SetActive(false);
 
-            Debug.Log("Player left door range.");
+            Debug.Log("Player left breakroom door range.");
+        }
+    }
+
+    
+    public void LoadRetailStoreScene()
+    {
+        if (!string.IsNullOrEmpty(retailStore))
+        {
+            Debug.Log($"Loading scene: {retailStore}");
+            SceneManager.LoadScene(retailStore);
+        }
+        else
+        {
+            Debug.LogWarning("No scene name provided for BreakroomDoorInteraction.");
+        }
+    }
+
+
+    public void CloseExitUI()
+    {
+        if (exitUI != null)
+        {
+            exitUI.SetActive(false);
+            Debug.Log("Exit UI closed.");
         }
     }
 }
+

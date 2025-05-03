@@ -5077,6 +5077,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd123bc9d4acc024e80200afb6ebad3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stressHigh: 0
 --- !u!82 &219416182
 AudioSource:
   m_ObjectHideFlags: 0
@@ -5091,7 +5092,7 @@ AudioSource:
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0

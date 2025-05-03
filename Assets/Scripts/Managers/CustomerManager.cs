@@ -14,6 +14,12 @@ public class CustomerManager : MonoBehaviour
     private bool isSpawningAllowed = false;
 
     private Queue<GameObject> activeCustomers = new Queue<GameObject>();
+    private static TaskStressManager stressManager;
+
+    private void Start()
+    {
+        stressManager = FindObjectOfType<TaskStressManager>();
+    }
 
     public void StartSpawning()
     {
@@ -65,6 +71,7 @@ public class CustomerManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.J) && activeCustomers.Count > 0)
         {
             GameObject oldest = activeCustomers.Dequeue();
+            stressManager.RemoveTask();
             if (oldest != null)
             {
                 CustomerTask task = oldest.GetComponent<CustomerTask>();

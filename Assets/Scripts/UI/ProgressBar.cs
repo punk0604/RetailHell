@@ -31,6 +31,8 @@ public class ProgressBar : MonoBehaviour
     private bool isGameOver = false;
     private float barValue;
 
+    private static stressMeterAlarm stressAlarm;
+
     public float BarValue
     {
         get { return barValue; }
@@ -61,6 +63,7 @@ public class ProgressBar : MonoBehaviour
         barBackground.sprite = BarBackGroundSprite;
 
         UpdateValue(barValue);
+        stressAlarm = FindObjectOfType<stressMeterAlarm>();
     }
 
     void UpdateValue(float val)
@@ -98,12 +101,14 @@ public class ProgressBar : MonoBehaviour
             if (enableFlashing && barValue >= 75f)
             {
                 isFlashing = true;
-                GameObject.Find("stressMeterAlarm").GetComponent<AudioSource>().Play();
+                stressAlarm.stressCheck = true;
+                Debug.Log("Alarm sound starts");
             }
             else
             {
                 isFlashing = false;
-                bar.color = (Alert >= barValue) ? BarAlertColor : BarColor;
+                bar.color = (Alert <= barValue) ? BarAlertColor : BarColor;
+                stressAlarm.stressCheck = false;
             }
 
             if (isFlashing)
@@ -117,8 +122,9 @@ public class ProgressBar : MonoBehaviour
             // Game Over trigger
             if (!isGameOver && barValue >= 100f)
             {
+                stressAlarm.stressCheck = false;
                 isGameOver = true;
-                GameObject.Find("stressMeterAlarm").GetComponent<AudioSource>().Stop();
+                //GameObject.Find("stressMeterAlarm").GetComponent<AudioSource>().Stop(); old code to stop audio directly.
                 Debug.Log("Game Over");
             }
         }

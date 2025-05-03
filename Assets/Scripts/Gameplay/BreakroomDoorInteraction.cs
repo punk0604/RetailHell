@@ -6,27 +6,25 @@ public class BreakroomDoorInteraction : MonoBehaviour
     private bool playerInRange = false;
 
     [Header("UI Panel for Door")]
-    public GameObject exitUI; // Use GameObject for flexibility in Inspector
+    public GameObject exitUI;
 
     [Header("Scene Settings")]
-    public string retailStore; // Scene to load when exiting
+    public string retailStore;
+
+    [Header("Camera Control")]
+    public MonoBehaviour cameraControlScript; // e.g. PlayerLook or FirstPersonLook
 
     private void Start()
     {
         if (exitUI != null)
-            exitUI.SetActive(false); // Ensure UI starts hidden
+            exitUI.SetActive(false);
     }
 
     private void Update()
     {
         if (playerInRange && Input.GetKeyDown(KeyCode.E))
         {
-            if (exitUI != null)
-            {
-                bool isActive = exitUI.activeSelf;
-                exitUI.SetActive(!isActive);
-                Debug.Log("Breakroom Door: UI toggled.");
-            }
+            ToggleExitUI();
         }
     }
 
@@ -46,15 +44,29 @@ public class BreakroomDoorInteraction : MonoBehaviour
         {
             playerInRange = false;
             InteractionPromptUI.Instance?.Hide();
-
-            if (exitUI != null)
-                exitUI.SetActive(false);
-
+            CloseExitUI();
             Debug.Log("Player left breakroom door range.");
         }
     }
 
-    
+    // 🔁 Toggles the exit UI manually
+    private void ToggleExitUI()
+    {
+        if (exitUI == null) return;
+
+        bool shouldShow = !exitUI.activeSelf;
+        exitUI.SetActive(shouldShow);
+
+        Cursor.lockState = shouldShow ? CursorLockMode.None : CursorLockMode.Locked;
+        Cursor.visible = shouldShow;
+
+        if (cameraControlScript != null)
+            cameraControlScript.enabled = !shouldShow;
+
+        Debug.Log($"Breakroom Door: UI {(shouldShow ? "opened" : "closed")}.");
+    }
+
+    // ✅ Button-compatible method
     public void LoadRetailStoreScene()
     {
         if (!string.IsNullOrEmpty(retailStore))
@@ -68,14 +80,22 @@ public class BreakroomDoorInteraction : MonoBehaviour
         }
     }
 
-
+    // ✅ Button-compatible method
     public void CloseExitUI()
     {
         if (exitUI != null)
         {
             exitUI.SetActive(false);
+
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+
+            if (cameraControlScript != null)
+                cameraControlScript.enabled = true;
+
             Debug.Log("Exit UI closed.");
         }
     }
 }
+
 

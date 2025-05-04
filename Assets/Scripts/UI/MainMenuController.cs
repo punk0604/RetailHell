@@ -4,15 +4,19 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
+using Unity.VisualScripting;
 
 public class MainMenuController : MonoBehaviour
 {
     public Button[] menuButtons; // Array of menu buttons
     private int selectedIndex = 0; // Keeps track of which button is selected
+    public GameObject options;
+    OptionsUI optionsUI;
 
     void Start()
     {
         HighlightButton(); // Ensure the first button is highlighted
+        optionsUI = options.GetComponent<OptionsUI>();
     }
 
     void Update()
@@ -56,7 +60,7 @@ public class MainMenuController : MonoBehaviour
 
     public void StartGame()
     {
-        GameObject.Find("UI button sound").GetComponent<AudioSource>().Play(); //plays ui button sound
+        PlayUiSound(); //plays ui button sound
         Debug.Log("Start Game"); // Placeholder for starting the game
         StartmenuMusicManager.instance.GetComponent<AudioSource>().Stop(); //VERY important to stop the menu music when the game starts
     }
@@ -69,7 +73,8 @@ public class MainMenuController : MonoBehaviour
 
     public void LoadOptions()
     {
-        GameObject.Find("UI button sound").GetComponent<AudioSource>().Play(); //plays ui button sound
+        PlayUiSound(); //plays ui button sound
+        optionsUI.ShowOptions();
         Debug.Log("Load Options Menu"); // Placeholder for loading options
     }
 
@@ -78,5 +83,10 @@ public class MainMenuController : MonoBehaviour
         StartmenuMusicManager.instance.GetComponent<AudioSource>().Stop(); //stops music just in case quitting the app breaks the music somehow
         Application.Quit(); // Quit the application
         Debug.Log("Game Quit"); // Log for debugging purposes
+    }
+
+    public void PlayUiSound()
+    {
+        GameObject.Find("UI button sound").GetComponent<AudioSource>().Play();
     }
 }

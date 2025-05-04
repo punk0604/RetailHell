@@ -628,7 +628,7 @@ AudioSource:
   m_GameObject: {fileID: 30200748}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 24300002, guid: dc266ae8a8d04dc42bd97ccc03bc90ee, type: 2}
   m_audioClip: {fileID: 8300000, guid: 4d233ff10b7bcb44b95d7d37f504d0c4, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
@@ -4064,7 +4064,7 @@ AudioSource:
   m_GameObject: {fileID: 168540672}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 24300002, guid: dc266ae8a8d04dc42bd97ccc03bc90ee, type: 2}
   m_audioClip: {fileID: 8300000, guid: 3506f49d32578634f95722941deceb63, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
@@ -24164,6 +24164,7 @@ GameObject:
   - component: {fileID: 859716860}
   - component: {fileID: 859716859}
   - component: {fileID: 859716862}
+  - component: {fileID: 859716863}
   m_Layer: 0
   m_Name: Camera
   m_TagString: MainCamera
@@ -24291,6 +24292,18 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
+--- !u!114 &859716863
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 859716858}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d25560d11567d0c44b6ca84195a7c8e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &862353490
 GameObject:
   m_ObjectHideFlags: 0
@@ -24754,10 +24767,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: UI ProgressBar
       objectReference: {fileID: 0}
+    - target: {fileID: 82264313377212946, guid: 5eefba205a58c8c4a937c97b87c185a3, type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: 24300002, guid: dc266ae8a8d04dc42bd97ccc03bc90ee, type: 2}
     - target: {fileID: 82446079618180222, guid: 5eefba205a58c8c4a937c97b87c185a3, type: 3}
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 82446079618180222, guid: 5eefba205a58c8c4a937c97b87c185a3, type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: 24300002, guid: dc266ae8a8d04dc42bd97ccc03bc90ee, type: 2}
     - target: {fileID: 114165064244077878, guid: 5eefba205a58c8c4a937c97b87c185a3, type: 3}
       propertyPath: m_Text
       value: Stress 50%
@@ -44967,7 +44988,7 @@ AudioSource:
   m_GameObject: {fileID: 899630990}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 24300002, guid: dc266ae8a8d04dc42bd97ccc03bc90ee, type: 2}
   m_audioClip: {fileID: 8300000, guid: 3506f49d32578634f95722941deceb63, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1

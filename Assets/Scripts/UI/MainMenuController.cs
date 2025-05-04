@@ -61,6 +61,12 @@ public class MainMenuController : MonoBehaviour
         StartmenuMusicManager.instance.GetComponent<AudioSource>().Stop(); //VERY important to stop the menu music when the game starts
     }
 
+    public void ShowInstructions()
+    {
+        GameObject.Find("UI button sound").GetComponent<AudioSource>().Play(); //plays ui button sound
+        Debug.Log("Instructions Button Clicked - Show Instructions UI or Scene");
+    }
+
     public void LoadOptions()
     {
         GameObject.Find("UI button sound").GetComponent<AudioSource>().Play(); //plays ui button sound

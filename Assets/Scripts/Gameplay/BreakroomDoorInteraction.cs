@@ -56,6 +56,7 @@ public class BreakroomDoorInteraction : MonoBehaviour
 
         bool shouldShow = !exitUI.activeSelf;
         exitUI.SetActive(shouldShow);
+        gameObject.GetComponent<AudioSource>().Play();
 
         Cursor.lockState = shouldShow ? CursorLockMode.None : CursorLockMode.Locked;
         Cursor.visible = shouldShow;
@@ -71,6 +72,7 @@ public class BreakroomDoorInteraction : MonoBehaviour
     {
         if (!string.IsNullOrEmpty(retailStore))
         {
+            GameObject.Find("UI button sound").GetComponent<AudioSource>().Play();
             Debug.Log($"Loading scene: {retailStore}");
             SceneManager.LoadScene(retailStore);
         }
@@ -86,6 +88,7 @@ public class BreakroomDoorInteraction : MonoBehaviour
         if (exitUI != null)
         {
             exitUI.SetActive(false);
+            
 
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;

@@ -17,4 +17,9 @@ public class UIButtonSoundManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
         }
     }
+
+    public void play()
+    {
+        gameObject.GetComponent<AudioSource>().Play();
+    }
 }

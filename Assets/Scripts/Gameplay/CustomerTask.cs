@@ -40,7 +40,7 @@ public class CustomerTask : MonoBehaviour
         /*if (stressManager != null)
         { stressManager.RemoveTask(); }*/
         if (successful)
-        { GameManager.Instance.AddPaycheck(20); }
+        { GameManager.Instance.AddPaycheck(5); }
 
         Destroy(gameObject);
     }

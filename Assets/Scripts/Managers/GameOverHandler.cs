@@ -10,4 +10,11 @@ public class GameOverHandler : MonoBehaviour
         Debug.Log("Loading Game Over scene...");
         SceneManager.LoadScene(gameOverScene);
     }
+
+     public void HandleGameOver()
+    {
+        GameManager.Instance.SaveResumeStats();
+        GameManager.Instance.ResetShifts();
+        GameManager.Instance.ResetPaycheck();
+    }
 }

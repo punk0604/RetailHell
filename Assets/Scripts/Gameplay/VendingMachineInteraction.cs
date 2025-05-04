@@ -31,6 +31,7 @@ public class VendingMachineInteraction : MonoBehaviour
             playerInRange = true;
             Debug.Log("Player entered vending machine range.");
             InteractionPromptUI.Instance?.Show("Press E for Vending Machine");
+            Debug.Log("Paycheck: " + GameManager.Instance.GetPaycheck());
         }
     }
 

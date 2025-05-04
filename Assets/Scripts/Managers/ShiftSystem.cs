@@ -6,18 +6,27 @@ public class ShiftSystem : MonoBehaviour
     public enum ShiftPhase { Opening, Active, WaitingForCustomersToClear, Closing, Break }
     public ShiftPhase currentPhase;
 
-    [Header("References")]
-    public GameObject openingTaskUI; // Just the UI (not physical tasks)
-    public GameObject closingTaskUI; // Just the UI (not physical tasks)
+    [Header("UI References")]
+    public GameObject openingTaskUI; // UI Panel for opening task list
+    public GameObject closingTaskUI; // UI Panel for closing task list
 
-    public GameObject openingTasks; // Parent of physical task scripts (DON'T deactivate)
-    public GameObject closingTasks; // Parent of physical task scripts (DON'T deactivate)
+    [Header("Task Parents")]
+    public GameObject openingTasks; // Parent object containing opening task scripts
+    public GameObject closingTasks; // Parent object containing closing task scripts
 
+    [Header("Systems")]
     public CustomerManager customerManager;
     public ShelfManager shelfManager;
 
     private void Start()
     {
+        if (SceneManager.GetActiveScene().name == "Breakroom")
+        {
+            Debug.Log("ShiftSystem disabled in Breakroom scene.");
+            enabled = false; // Completely disable this script in Breakroom
+            return;
+        }
+
         StartOpening();
     }
 
@@ -62,10 +71,11 @@ public class ShiftSystem : MonoBehaviour
         if (openingTaskUI != null) openingTaskUI.SetActive(true);
         if (closingTaskUI != null) closingTaskUI.SetActive(false);
 
-        customerManager.gameObject.SetActive(false);
+        if (customerManager != null)
+            customerManager.gameObject.SetActive(false);
 
         if (shelfManager != null)
-            shelfManager.StopRemovingItems();
+            shelfManager.StopRemovingItems(); // Prevent stress from active shelf removal
     }
 
     void CompleteOpening()
@@ -78,8 +88,11 @@ public class ShiftSystem : MonoBehaviour
     {
         currentPhase = ShiftPhase.Active;
 
-        customerManager.gameObject.SetActive(true);
-        customerManager.StartSpawning();
+        if (customerManager != null)
+        {
+            customerManager.gameObject.SetActive(true);
+            customerManager.StartSpawning();
+        }
 
         if (shelfManager != null)
             shelfManager.StartRemovingItems();
@@ -89,7 +102,8 @@ public class ShiftSystem : MonoBehaviour
 
     void StopActivePhase()
     {
-        customerManager.StopSpawning();
+        if (customerManager != null)
+            customerManager.StopSpawning();
 
         if (shelfManager != null)
             shelfManager.StopRemovingItems();
@@ -110,13 +124,22 @@ public class ShiftSystem : MonoBehaviour
 
     void CompleteClosing()
     {
-        if (closingTaskUI != null) closingTaskUI.SetActive(false);
-        Debug.Log("✅ Shift ended. Send to Breakroom.");
-        //SceneManager.LoadScene("BreakRoom");
+        if (closingTaskUI != null)
+            closingTaskUI.SetActive(false);
+
+        Debug.Log("✅ Shift ended. Breakroom is now accessible.");
+        currentPhase = ShiftPhase.Break;
     }
+
 
     bool AllTasksComplete(GameObject taskParent)
     {
+        if (taskParent == null)
+        {
+            Debug.LogWarning("ShiftSystem: taskParent is null or missing.");
+            return false;
+        }
+
         ShiftTask[] tasks = taskParent.GetComponentsInChildren<ShiftTask>(true);
 
         foreach (ShiftTask task in tasks)
@@ -128,6 +151,7 @@ public class ShiftSystem : MonoBehaviour
         return true;
     }
 }
+
 
 
 

@@ -11,7 +11,7 @@ public class TaskStressManager : MonoBehaviour
     public float maxStress = 100f;
 
     [Header("Events")]
-    public UnityEvent onStressMaxed; // Trigger game over or transition
+    public UnityEvent onStressMaxed; 
 
     private int currentTasks = 0;
     private float targetStress = 0f;

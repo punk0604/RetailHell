@@ -12,14 +12,8 @@ public class GameManager : MonoBehaviour
         else Destroy(gameObject);
     }
 
-    public void AddPaycheck(int amount)
-    {
-        paycheck += amount;
-        Debug.Log("Paycheck: " + paycheck);
-    }
+    public int GetPaycheck() => paycheck;
+    public void AddPaycheck(int amount) => paycheck += amount;
+    public void ResetPaycheck() => paycheck = 0;
 
-    public void ResetPaycheck()
-    {
-        paycheck = 0;
-    }
 }

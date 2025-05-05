@@ -67,6 +67,13 @@ public class MainMenuController : MonoBehaviour
     {
         PlayUiSound();
         Debug.Log("Instructions Button Clicked - Show Instructions UI or Scene");
+        SceneManager.LoadScene("Instructions");
+    }
+
+    public void ClickToHome()
+    {
+        PlayUiSound();
+        SceneManager.LoadScene("MainMenu");
     }
 
     public void QuitGame()

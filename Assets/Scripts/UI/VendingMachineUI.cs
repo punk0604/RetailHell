@@ -115,7 +115,7 @@ public class VendingMachineUI : MonoBehaviour
 
     public void ConfirmPurchase()
     {
-        if (GameManager.Instance.paycheck >= totalCost)
+        if (GameManager.Instance.paycheck > totalCost)
         {
             vendingSound.GetComponent<AudioSource>().Play();
             GameManager.Instance.paycheck -= totalCost;
@@ -128,6 +128,14 @@ public class VendingMachineUI : MonoBehaviour
             Debug.LogWarning("🚫 Not enough paycheck.");
         }
 
+        UpdateUI();
+    }
+    public void clearOrder()
+    {
+        energyDrinkCount = 0;
+        snackBarCount = 0;
+        zenSodaCount = 0;
+        totalCost = 0;
         UpdateUI();
     }
 

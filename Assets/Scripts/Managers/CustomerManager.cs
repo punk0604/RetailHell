@@ -35,7 +35,7 @@ public class CustomerManager : MonoBehaviour
     public void StopSpawning()
     {
         isSpawningAllowed = false;
-        clock.SetActive(false);
+        clock.GetComponent<AudioSource>().Play();
         Debug.Log("CustomerManager: Spawning ended.");
     }
 

@@ -7,7 +7,7 @@ public class CustomerManager : MonoBehaviour
     public GameObject customerPrefab;
     public Transform[] spawnPoints;
     public float spawnInterval = 5f;
-    public float spawnDuration = 60f; // Total allowed spawning time (2 minutes)
+    public float spawnDuration = 120f; // Total allowed spawning time (2 minutes)
 
     private float spawnTimer = 0f;
     private float intervalTimer = 0f;
@@ -16,6 +16,8 @@ public class CustomerManager : MonoBehaviour
     private Queue<GameObject> activeCustomers = new Queue<GameObject>();
     private static TaskStressManager stressManager;
 
+    public GameObject clock;
+
     private void Start()
     {
         stressManager = FindObjectOfType<TaskStressManager>();
@@ -23,6 +25,7 @@ public class CustomerManager : MonoBehaviour
 
     public void StartSpawning()
     {
+        clock.SetActive(true);
         isSpawningAllowed = true;
         spawnTimer = spawnDuration;
         intervalTimer = spawnInterval;
@@ -32,6 +35,7 @@ public class CustomerManager : MonoBehaviour
     public void StopSpawning()
     {
         isSpawningAllowed = false;
+        clock.SetActive(false);
         Debug.Log("CustomerManager: Spawning ended.");
     }
 

@@ -1,4 +1,4 @@
-using System.Collections;
+/*using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -109,3 +109,4 @@ public class CustomerController : MonoBehaviour
     public bool IsSpawningComplete() => !isSpawning;
     public int GetRemainingCustomers() => activeCustomers.Count;
 }
+*/

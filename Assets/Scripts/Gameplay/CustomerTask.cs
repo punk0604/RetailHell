@@ -25,7 +25,6 @@ public class CustomerTask : MonoBehaviour
         }
     }
 
-    // ✅ PUBLIC method that can be called externally (e.g., from RegisterZone)
     public void CompleteTask()
     {
         if (!taskComplete)
@@ -38,21 +37,19 @@ public class CustomerTask : MonoBehaviour
     {
         taskComplete = true;
 
+        /*if (stressManager != null)
+        { stressManager.RemoveTask(); }*/
         if (successful)
-            GameManager.Instance.AddPaycheck(5);
-
-        if (stressManager != null)
-            stressManager.RemoveTask();
+        { GameManager.Instance.AddPaycheck(5); }
 
         Destroy(gameObject);
     }
-
-    // ✅ Optional helper for register zone
-    public bool IsComplete()
-    {
-        return taskComplete;
-    }
 }
+
+
+
+
+
 
 
 

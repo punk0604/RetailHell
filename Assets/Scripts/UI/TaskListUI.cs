@@ -10,7 +10,7 @@ public class TaskListUI : MonoBehaviour
     public GameObject taskTextPrefab;
 
     [Header("Active Phase Settings")]
-    public CustomerController customerController; // ✅ Replaced CustomerManager
+    public CustomerManager customerManager;  // ✅ Now uses CustomerManager
     private TMP_Text customerCounterText;
 
     [Header("Task References")]
@@ -23,14 +23,6 @@ public class TaskListUI : MonoBehaviour
     private Dictionary<string, TMP_Text> currentTasks = new Dictionary<string, TMP_Text>();
     private ShiftSystem.ShiftPhase lastPhase;
     private TMP_Text restockText;
-
-    private Queue<GameObject> activeCustomers = new Queue<GameObject>();
-
-    public int GetRemainingCustomers()
-    {
-        return activeCustomers.Count;
-    }
-
 
     private void Start()
     {
@@ -46,25 +38,22 @@ public class TaskListUI : MonoBehaviour
             RefreshTaskList();
         }
 
-        // ✅ Always update the customer counter during active phase
         if (shiftSystem.currentPhase == ShiftSystem.ShiftPhase.Active)
         {
             UpdateCustomerCounter();
         }
 
-        // Also keep updating other task states
         UpdateTaskStatus();
     }
 
     void UpdateCustomerCounter()
     {
-        if (customerCounterText != null && customerController != null)
+        if (customerCounterText != null && customerManager != null)
         {
-            int remaining = customerController.GetRemainingCustomers();
+            int remaining = customerManager.GetRemainingCustomers();
             customerCounterText.text = $"Customers Remaining: {remaining}";
         }
     }
-
 
     void RefreshTaskList()
     {
@@ -132,11 +121,7 @@ public class TaskListUI : MonoBehaviour
         {
             case ShiftSystem.ShiftPhase.Opening:
                 if (currentTasks.ContainsKey("Turn on Lights"))
-                {
-                    currentTasks["Turn on Lights"].text = lightSwitch.IsTaskComplete()
-                        ? "<s>Turn on Lights</s>"
-                        : "Turn on Lights";
-                }
+                    currentTasks["Turn on Lights"].text = lightSwitch.IsTaskComplete() ? "<s>Turn on Lights</s>" : "Turn on Lights";
 
                 if (currentTasks.ContainsKey("Open Registers"))
                 {
@@ -150,12 +135,7 @@ public class TaskListUI : MonoBehaviour
 
             case ShiftSystem.ShiftPhase.Closing:
                 if (currentTasks.ContainsKey("Turn off Lights"))
-                {
-                    bool isComplete = lightSwitch.IsTaskComplete();
-                    currentTasks["Turn off Lights"].text = isComplete
-                        ? "<s>Turn off Lights</s>"
-                        : "Turn off Lights";
-                }
+                    currentTasks["Turn off Lights"].text = lightSwitch.IsTaskComplete() ? "<s>Turn off Lights</s>" : "Turn off Lights";
 
                 if (currentTasks.ContainsKey("Close Registers"))
                 {
@@ -171,7 +151,6 @@ public class TaskListUI : MonoBehaviour
                     int restocked = shelfManager.GetRestockedCount();
                     int total = shelfManager.GetTotalShelfItemCount();
                     bool complete = restocked >= total;
-
                     restockText.text = complete
                         ? $"<s>Restock Shelves: {restocked} / {total}</s>"
                         : $"Restock Shelves: {restocked} / {total}";
@@ -179,11 +158,7 @@ public class TaskListUI : MonoBehaviour
                 break;
 
             case ShiftSystem.ShiftPhase.Active:
-                if (customerCounterText != null && customerController != null)
-                {
-                    int remaining = customerController.GetRemainingCustomers();
-                    customerCounterText.text = $"Customers Remaining: {remaining}";
-                }
+                UpdateCustomerCounter();
                 break;
         }
     }
@@ -205,4 +180,5 @@ public class TaskListUI : MonoBehaviour
         customerCounterText.text = "Customers Remaining: 0";
     }
 }
+
 

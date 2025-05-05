@@ -9,8 +9,8 @@ public class InventoryUI : MonoBehaviour
 
     private void Update()
     {
-        energyDrinkText.text = $"Energy Drinks: {GameManager.Instance.energyDrinksOwned}";
-        snackBarText.text = $"Snack Bars: {GameManager.Instance.snackBarsOwned}";
-        zenSodaText.text = $"Zen Sodas: {GameManager.Instance.zenSodasOwned}";
+        energyDrinkText.text = $"[1]Energy Drinks: {GameManager.Instance.energyDrinksOwned}";
+        snackBarText.text = $"[3]Snack Bars: {GameManager.Instance.snackBarsOwned}";
+        zenSodaText.text = $"[2]Zen Sodas: {GameManager.Instance.zenSodasOwned}";
     }
 }

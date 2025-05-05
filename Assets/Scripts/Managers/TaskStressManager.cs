@@ -57,6 +57,19 @@ public class TaskStressManager : MonoBehaviour
     {
         return currentTasks;
     }
+
+    public void IncreaseStressCap(int amount)
+    {
+        maxStress += amount;
+        Debug.Log($"New max stress: {maxStress}");
+    }
+
+    public void DisableStressForShift()
+    {
+        enabled = false;
+        Debug.Log("Stress disabled for current shift.");
+    }
+
 }
 
 

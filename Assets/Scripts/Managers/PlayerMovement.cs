@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -16,10 +17,16 @@ public class PlayerMovement : MonoBehaviour
 
     public bool inputLocked = false; // Hidden from Inspector
 
+    private float originalMoveSpeed;
+    private float originalSprintSpeed;
+
     void Start()
     {
         controller = GetComponent<CharacterController>();
         Cursor.lockState = CursorLockMode.Locked;
+
+        originalMoveSpeed = moveSpeed;
+        originalSprintSpeed = sprintSpeed;
     }
 
     void Update()
@@ -28,12 +35,11 @@ public class PlayerMovement : MonoBehaviour
         HandleMouseLook();
         HandleMovement();
         HandleJump();
+        HandleItemUse();
     }
 
     void HandleMovement()
     {
-        if (inputLocked) return;
-
         float moveX = Input.GetAxis("Horizontal");
         float moveZ = Input.GetAxis("Vertical");
 
@@ -57,8 +63,6 @@ public class PlayerMovement : MonoBehaviour
 
     void HandleMouseLook()
     {
-        if (inputLocked) return;
-
         float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity;
         float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity;
 
@@ -71,8 +75,6 @@ public class PlayerMovement : MonoBehaviour
 
     void HandleJump()
     {
-        if (inputLocked) return;
-
         if (Input.GetKeyDown(KeyCode.Space) && controller.isGrounded)
         {
             verticalVelocity = Mathf.Sqrt(jumpHeight * 2f * gravity);
@@ -80,7 +82,40 @@ public class PlayerMovement : MonoBehaviour
 
         isSprinting = Input.GetKey(KeyCode.LeftShift);
     }
+
+    void HandleItemUse()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha1) && GameManager.Instance.energyDrinksOwned > 0)
+        {
+            GameManager.Instance.energyDrinksOwned--;
+            StartCoroutine(ApplySpeedBoost(60f));
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha2) && GameManager.Instance.zenSodasOwned > 0)
+        {
+            GameManager.Instance.zenSodasOwned--;
+            TaskStressManager stressManager = FindObjectOfType<TaskStressManager>();
+            if (stressManager != null) stressManager.DisableStressForShift();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha3) && GameManager.Instance.snackBarsOwned > 0)
+        {
+            GameManager.Instance.snackBarsOwned--;
+            TaskStressManager stressManager = FindObjectOfType<TaskStressManager>();
+            if (stressManager != null) stressManager.IncreaseStressCap(5);
+        }
+    }
+
+    public IEnumerator ApplySpeedBoost(float duration)
+    {
+        moveSpeed = originalMoveSpeed * 1.5f;
+        sprintSpeed = originalSprintSpeed * 1.5f;
+        yield return new WaitForSeconds(duration);
+        moveSpeed = originalMoveSpeed;
+        sprintSpeed = originalSprintSpeed;
+    }
 }
+
 
 
 

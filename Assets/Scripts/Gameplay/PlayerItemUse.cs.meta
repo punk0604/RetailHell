@@ -3,7 +3,11 @@ guid: d98eafac4f785104db0b6560d6c3f58f
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - playerMovement: {instanceID: 0}
+  - energyDrinkEffect: {fileID: 5024009746357069194, guid: ec3f674830402cc45bce805cf6493db7, type: 3}
+  - zenSodaEffect: {fileID: 5024009746357069194, guid: ec3f674830402cc45bce805cf6493db7, type: 3}
+  - snackBarEffect: {fileID: 5024009746357069194, guid: ec3f674830402cc45bce805cf6493db7, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

@@ -3,6 +3,9 @@ using UnityEngine;
 public class PlayerItemUse : MonoBehaviour
 {
     public PlayerMovement playerMovement;
+    public GameObject energyDrinkEffect;
+    public GameObject zenSodaEffect;
+    public GameObject snackBarEffect;
 
     private bool noStressActive = false;
 
@@ -14,6 +17,7 @@ public class PlayerItemUse : MonoBehaviour
             {
                 GameManager.Instance.energyDrinksOwned--;
                 playerMovement.ApplySpeedBoost(60f);
+                Instantiate(energyDrinkEffect, transform.position, Quaternion.identity);
                 Debug.Log("Used Energy Drink: +Speed for 1 minute");
             }
             else
@@ -28,6 +32,7 @@ public class PlayerItemUse : MonoBehaviour
             {
                 GameManager.Instance.zenSodasOwned--;
                 noStressActive = true;
+                Instantiate(zenSodaEffect, transform.position, Quaternion.identity);
                 TaskStressManager stressManager = FindObjectOfType<TaskStressManager>();
                 if (stressManager != null) stressManager.DisableStressForShift();
                 Debug.Log("Used Zen Soda: No stress for the rest of shift.");
@@ -44,6 +49,7 @@ public class PlayerItemUse : MonoBehaviour
             {
                 GameManager.Instance.snackBarsOwned--;
                 TaskStressManager stressManager = FindObjectOfType<TaskStressManager>();
+                Instantiate(snackBarEffect, transform.position, Quaternion.identity);
                 if (stressManager != null) stressManager.IncreaseStressCap(5);
                 Debug.Log("Used Snack Bar: +5 stress cap.");
             }

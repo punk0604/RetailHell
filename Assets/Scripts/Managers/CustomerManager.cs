@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+/*using System.Collections.Generic;
 using UnityEngine;
 
 public class CustomerManager : MonoBehaviour
@@ -115,6 +115,7 @@ public class CustomerManager : MonoBehaviour
     }
 
 }
+*/
 
 
 

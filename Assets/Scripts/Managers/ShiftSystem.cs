@@ -15,7 +15,7 @@ public class ShiftSystem : MonoBehaviour
     public GameObject closingTasks;
 
     [Header("Systems")]
-    public CustomerManager customerManager;
+    public CustomerController customerController;  // ✅ Renamed from CustomerManager
     public ShelfManager shelfManager;
 
     private void Start()
@@ -27,7 +27,6 @@ public class ShiftSystem : MonoBehaviour
             return;
         }
 
-        // ✅ If we previously completed a shift (came from Break), restart from Opening
         if (currentPhase == ShiftPhase.Break)
         {
             Debug.Log("Returning from Breakroom. Restarting shift.");
@@ -49,12 +48,12 @@ public class ShiftSystem : MonoBehaviour
                 break;
 
             case ShiftPhase.Active:
-                if (customerManager != null && customerManager.IsSpawningComplete())
+                if (customerController != null && customerController.IsSpawningComplete())
                     StopActivePhase();
                 break;
 
             case ShiftPhase.WaitingForCustomersToClear:
-                if (customerManager != null && customerManager.AllCustomersCompleted())
+                if (customerController != null && customerController.AllCustomersCompleted())
                     StartClosing();
                 break;
 
@@ -72,8 +71,8 @@ public class ShiftSystem : MonoBehaviour
         if (openingTaskUI != null) openingTaskUI.SetActive(true);
         if (closingTaskUI != null) closingTaskUI.SetActive(false);
 
-        if (customerManager != null)
-            customerManager.gameObject.SetActive(false);
+        if (customerController != null)
+            customerController.gameObject.SetActive(false);
 
         if (shelfManager != null)
             shelfManager.StopRemovingItems();
@@ -89,10 +88,10 @@ public class ShiftSystem : MonoBehaviour
     {
         currentPhase = ShiftPhase.Active;
 
-        if (customerManager != null)
+        if (customerController != null)
         {
-            customerManager.gameObject.SetActive(true);
-            customerManager.StartSpawning();
+            customerController.gameObject.SetActive(true);
+            customerController.StartSpawning();
         }
 
         if (shelfManager != null)
@@ -103,8 +102,8 @@ public class ShiftSystem : MonoBehaviour
 
     void StopActivePhase()
     {
-        if (customerManager != null)
-            customerManager.StopSpawning();
+        if (customerController != null)
+            customerController.StopSpawning();
 
         if (shelfManager != null)
             shelfManager.StopRemovingItems();
@@ -159,6 +158,7 @@ public class ShiftSystem : MonoBehaviour
         StartOpening();
     }
 }
+
 
 
 

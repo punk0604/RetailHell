@@ -8,18 +8,28 @@ public class TaskListUI : MonoBehaviour
     public GameObject taskPanel;
     public Transform taskContainer;
     public GameObject taskTextPrefab;
+
     [Header("Active Phase Settings")]
-    public CustomerManager customerManager; 
-    private TMP_Text customerCounterText; 
+    public CustomerController customerController; // ✅ Replaced CustomerManager
+    private TMP_Text customerCounterText;
+
     [Header("Task References")]
     public ShiftSystem shiftSystem;
     public LightSwitch lightSwitch;
     public CashRegister[] openingRegisters;
     public CashRegister[] closingRegisters;
+    public ShelfManager shelfManager;
 
     private Dictionary<string, TMP_Text> currentTasks = new Dictionary<string, TMP_Text>();
     private ShiftSystem.ShiftPhase lastPhase;
-    public ShelfManager shelfManager;
+    private TMP_Text restockText;
+
+    private Queue<GameObject> activeCustomers = new Queue<GameObject>();
+
+    public int GetRemainingCustomers()
+    {
+        return activeCustomers.Count;
+    }
 
 
     private void Start()
@@ -36,8 +46,25 @@ public class TaskListUI : MonoBehaviour
             RefreshTaskList();
         }
 
+        // ✅ Always update the customer counter during active phase
+        if (shiftSystem.currentPhase == ShiftSystem.ShiftPhase.Active)
+        {
+            UpdateCustomerCounter();
+        }
+
+        // Also keep updating other task states
         UpdateTaskStatus();
     }
+
+    void UpdateCustomerCounter()
+    {
+        if (customerCounterText != null && customerController != null)
+        {
+            int remaining = customerController.GetRemainingCustomers();
+            customerCounterText.text = $"Customers Remaining: {remaining}";
+        }
+    }
+
 
     void RefreshTaskList()
     {
@@ -62,7 +89,6 @@ public class TaskListUI : MonoBehaviour
                 AddTask("Close Registers", CountCompleted(closingRegisters), closingRegisters.Length);
                 AddRestockProgress();
                 break;
-
         }
     }
 
@@ -83,8 +109,6 @@ public class TaskListUI : MonoBehaviour
         currentTasks[taskName] = text;
     }
 
-    private TMP_Text restockText;
-
     void AddRestockProgress()
     {
         GameObject taskObj = Instantiate(taskTextPrefab, taskContainer);
@@ -101,7 +125,6 @@ public class TaskListUI : MonoBehaviour
             restockText.text = "Restock Shelves: 0 / ?";
         }
     }
-
 
     void UpdateTaskStatus()
     {
@@ -132,7 +155,6 @@ public class TaskListUI : MonoBehaviour
                     currentTasks["Turn off Lights"].text = isComplete
                         ? "<s>Turn off Lights</s>"
                         : "Turn off Lights";
-
                 }
 
                 if (currentTasks.ContainsKey("Close Registers"))
@@ -143,6 +165,7 @@ public class TaskListUI : MonoBehaviour
                         ? $"<s>Close Registers: {closed}/{closingRegisters.Length}</s>"
                         : $"Close Registers: {closed}/{closingRegisters.Length}";
                 }
+
                 if (restockText != null && shelfManager != null)
                 {
                     int restocked = shelfManager.GetRestockedCount();
@@ -153,13 +176,12 @@ public class TaskListUI : MonoBehaviour
                         ? $"<s>Restock Shelves: {restocked} / {total}</s>"
                         : $"Restock Shelves: {restocked} / {total}";
                 }
-
                 break;
 
             case ShiftSystem.ShiftPhase.Active:
-                if (customerCounterText != null && customerManager != null)
+                if (customerCounterText != null && customerController != null)
                 {
-                    int remaining = customerManager.GetRemainingCustomers();
+                    int remaining = customerController.GetRemainingCustomers();
                     customerCounterText.text = $"Customers Remaining: {remaining}";
                 }
                 break;
@@ -180,7 +202,7 @@ public class TaskListUI : MonoBehaviour
     {
         GameObject taskObj = Instantiate(taskTextPrefab, taskContainer);
         customerCounterText = taskObj.GetComponent<TMP_Text>();
-        customerCounterText.text = "Customer Counter: 0"; // Placeholder text
+        customerCounterText.text = "Customers Remaining: 0";
     }
-
 }
+

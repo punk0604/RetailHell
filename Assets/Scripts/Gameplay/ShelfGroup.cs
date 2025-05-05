@@ -40,6 +40,7 @@ public class ShelfGroup : MonoBehaviour
             {
                 RestockAllItems();
                 shelfManager.LockRestocking();
+                GameObject.Find("BoxSound").GetComponent<AudioSource>().Play(); //plays box sound
                 Debug.Log($"✅ ShelfGroup '{gameObject.name}' restocked via player interaction.");
             }
             else

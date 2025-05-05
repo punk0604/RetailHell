@@ -16,6 +16,7 @@ public class StockpileInteraction : MonoBehaviour
             if (shiftSystem.currentPhase == ShiftSystem.ShiftPhase.Closing)
             {
                 shelfManager.EnableRestocking(); // ✅ Can do this every time
+                GameObject.Find("BoxSound").GetComponent<AudioSource>().Play(); // plays box sound
                 Debug.Log("✅ Stockpile: Restocking enabled.");
             }
             else

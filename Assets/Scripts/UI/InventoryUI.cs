@@ -3,6 +3,8 @@ using TMPro;
 
 public class InventoryUI : MonoBehaviour
 {
+    //public static GameManager instance;
+
     public TMP_Text energyDrinkText;
     public TMP_Text snackBarText;
     public TMP_Text zenSodaText;

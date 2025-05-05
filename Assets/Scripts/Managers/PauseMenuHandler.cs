@@ -2,10 +2,22 @@ using UnityEngine;
 
 public class PauseMenuHandler : MonoBehaviour
 {
+    //public static PauseMenuHandler Instance;
     public GameObject pausePanel;
     public PlayerMovement playerMovement;
     private bool isPaused = false;
+    public GameObject MainCanvas;
 
+    /*private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        //else Destroy(gameObject);
+       
+    }*/
     private void Start()
     {
         if (pausePanel != null)
@@ -28,6 +40,8 @@ public class PauseMenuHandler : MonoBehaviour
         isPaused = !isPaused;
         pausePanel.SetActive(isPaused);
 
+        MainCanvas.SetActive(false);
+
         if (playerMovement != null)
             playerMovement.inputLocked = isPaused;
 
@@ -41,6 +55,8 @@ public class PauseMenuHandler : MonoBehaviour
         isPaused = false;
         pausePanel.SetActive(false);
         Time.timeScale = 1;
+
+        MainCanvas.SetActive(true);
 
         if (playerMovement != null)
             playerMovement.inputLocked = false;

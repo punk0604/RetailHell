@@ -4,12 +4,34 @@ using UnityEngine.SceneManagement;
 public class EnterBreakroom : MonoBehaviour
 {
     private bool playerInRange = false;
+    //public GameObject PauseCan;
+    //public static FOVUI fovui;
+    //public static EnterBreakroom instance;
 
     [Header("Scene Settings")]
     public string breakroomSceneName = "Breakroom";
 
     [Header("References")]
     public ShiftSystem shiftSystem;
+
+    /*private void Awake() //make sure the sound can play across scenes
+    {
+        if (instance != null)
+        {
+            //Destroy(gameObject);
+        }
+        else
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+    }*/
+    /*private void Start()
+    {
+        fovui = PauseCan.GetComponent<FOVUI>();
+    }*/
+
+
 
     private void Update()
     {
@@ -21,10 +43,13 @@ public class EnterBreakroom : MonoBehaviour
             {
                 Debug.Log("✅ Entering Breakroom...");
                 SceneManager.LoadScene(breakroomSceneName);
+                //fovui.Refresh();
             }
             else
             {
                 Debug.Log("🚫 Cannot enter breakroom yet. Closing tasks not done.");
+                //temp:
+                SceneManager.LoadScene(breakroomSceneName);
             }
         }
     }

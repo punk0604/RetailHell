@@ -4,7 +4,21 @@ using UnityEngine;
 
 public class OptionsUI : MonoBehaviour
 {
+    //public static OptionsUI instance;
     // Start is called before the first frame update
+
+    /*private void Awake() //make sure the sound can play across scenes
+    {
+        if (instance != null)
+        {
+            //Destroy(gameObject);
+        }
+        else
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+    }*/
     public void ShowOptions()
     {
         gameObject.SetActive(true);

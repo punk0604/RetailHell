@@ -5,9 +5,24 @@ using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 {
+    //public static PauseMenu instance;
+
     public GameObject pausePanel;
     public GameObject options;
     OptionsUI optionsUI;
+
+    /*private void Awake() //make sure the sound can play across scenes
+    {
+        if (instance != null)
+        {
+            //Destroy(gameObject);
+        }
+        else
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+    }*/
 
     private void Start()
     {

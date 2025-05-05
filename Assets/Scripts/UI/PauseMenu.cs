@@ -21,13 +21,6 @@ public class PauseMenu : MonoBehaviour
         Time.timeScale = 0;
     }
 
-    public void Continue()
-    {
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
-        pausePanel.SetActive(false);
-        Time.timeScale = 1;
-    }
     public void ShowOptions()
     {
         optionsUI.ShowOptions();

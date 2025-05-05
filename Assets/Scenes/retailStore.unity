@@ -2576,9 +2576,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2036983619}
-        m_TargetAssemblyTypeName: PauseMenu, Assembly-CSharp
-        m_MethodName: Continue
+      - m_Target: {fileID: 1733951329}
+        m_TargetAssemblyTypeName: PauseMenuHandler, Assembly-CSharp
+        m_MethodName: ResumeGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -18013,7 +18013,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Energy Drinks: 0'
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 79459efec17a4d00a321bdcc27bbc385, type: 2}
@@ -27089,7 +27089,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Energy Drinks: 0'
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 79459efec17a4d00a321bdcc27bbc385, type: 2}
@@ -35457,7 +35457,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Energy Drinks: 0'
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 79459efec17a4d00a321bdcc27bbc385, type: 2}
@@ -43090,7 +43090,6 @@ GameObject:
   - component: {fileID: 1465181918}
   - component: {fileID: 1465181917}
   - component: {fileID: 1465181916}
-  - component: {fileID: 1465181920}
   m_Layer: 0
   m_Name: doorPlaceHolder
   m_TagString: QuitObject
@@ -43184,19 +43183,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1465181920
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1465181915}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 43ab06f52ece67c40a276143915cd810, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShopDoorUI: {fileID: 0}
 --- !u!1 &1465525673
 GameObject:
   m_ObjectHideFlags: 0
@@ -51128,6 +51114,7 @@ GameObject:
   - component: {fileID: 1733951327}
   - component: {fileID: 1733951326}
   - component: {fileID: 1733951328}
+  - component: {fileID: 1733951329}
   m_Layer: 0
   m_Name: UI Manager
   m_TagString: Untagged
@@ -51178,6 +51165,20 @@ MonoBehaviour:
   energyDrinkText: {fileID: 604271470}
   snackBarText: {fileID: 1168755997}
   zenSodaText: {fileID: 912200947}
+--- !u!114 &1733951329
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1733951325}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88ece33b85f258e4eb672acc12e3fe04, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pausePanel: {fileID: 2036983615}
+  playerMovement: {fileID: 1779336632}
 --- !u!1 &1734963949
 GameObject:
   m_ObjectHideFlags: 0

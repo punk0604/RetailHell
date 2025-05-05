@@ -73,6 +73,8 @@ public class MainMenuController : MonoBehaviour
 
     public void LoadOptions()
     {
+        Time.timeScale = 0;
+        Debug.Log("time paused");
         PlayUiSound(); //plays ui button sound
         optionsUI.ShowOptions();
         Debug.Log("Load Options Menu"); // Placeholder for loading options

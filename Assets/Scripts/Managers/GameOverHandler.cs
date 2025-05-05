@@ -7,6 +7,8 @@ public class GameOverHandler : MonoBehaviour
     public string gameOverScene = "GameOver"; 
     public void LoadGameOverScene()
     {
+        Cursor.visible = true; // Show cursor
+        Cursor.lockState = CursorLockMode.None; // Free the cursor
         Debug.Log("Loading Game Over scene...");
         SceneManager.LoadScene(gameOverScene);
     }

@@ -14,14 +14,23 @@ public class PlayerMovement : MonoBehaviour
     private bool isSprinting = false;
     private float verticalVelocity = -2f; // Initialize gravity effect
 
+    private PauseMenu pauseMenu;
+
     void Start()
     {
         controller = GetComponent<CharacterController>();
+        pauseMenu = GetComponent<PauseMenu>();
         Cursor.lockState = CursorLockMode.Locked;
     }
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+            pauseMenu.Pause();
+        }
         HandleMouseLook();
         HandleMovement();
         HandleJump();
@@ -60,14 +69,17 @@ public class PlayerMovement : MonoBehaviour
 
     void HandleMouseLook()
     {
-        float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity;
-        float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity;
+        if (Time.timeScale == 1)
+        {
+            float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity;
+            float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity;
 
-        verticalRotation -= mouseY;
-        verticalRotation = Mathf.Clamp(verticalRotation, -90f, 90f);
+            verticalRotation -= mouseY;
+            verticalRotation = Mathf.Clamp(verticalRotation, -90f, 90f);
 
-        playerCamera.localRotation = Quaternion.Euler(verticalRotation, 0f, 0f);
-        transform.Rotate(Vector3.up * mouseX);
+            playerCamera.localRotation = Quaternion.Euler(verticalRotation, 0f, 0f);
+            transform.Rotate(Vector3.up * mouseX);
+        }
     }
 
     void HandleJump()

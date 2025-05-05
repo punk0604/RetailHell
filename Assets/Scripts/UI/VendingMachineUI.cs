@@ -94,38 +94,38 @@ public class VendingMachineUI : MonoBehaviour
 
     public void AddEnergyDrink()
     {
-        uiSound.GetComponent<AudioSource>().Play();
         energyDrinkCount++;
         UpdateUI();
+        uiSound.GetComponent<AudioSource>().Play();
     }
 
     public void AddSnackBar()
     {
-        uiSound.GetComponent<AudioSource>().Play();
         snackBarCount++;
         UpdateUI();
+        uiSound.GetComponent<AudioSource>().Play();
     }
 
     public void AddZenSoda()
     {
-        uiSound.GetComponent<AudioSource>().Play();
         zenSodaCount++;
         UpdateUI();
+        uiSound.GetComponent<AudioSource>().Play();
     }
 
     public void ConfirmPurchase()
     {
         if (GameManager.Instance.paycheck > totalCost)
         {
-            vendingSound.GetComponent<AudioSource>().Play();
             GameManager.Instance.paycheck -= totalCost;
             Debug.Log("✅ Items purchased!");
             ResetCart();
+            vendingSound.GetComponent<AudioSource>().Play();
         }
         else
         {
-            errorSound.GetComponent<AudioSource>().Play();
             Debug.LogWarning("🚫 Not enough paycheck.");
+            errorSound.GetComponent<AudioSource>().Play();
         }
 
         UpdateUI();

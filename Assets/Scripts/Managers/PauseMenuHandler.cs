@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PauseMenuHandler : MonoBehaviour
 {
-    //public static PauseMenuHandler Instance;
+    public static PauseMenuHandler Instance;
     public GameObject pausePanel;
     public PlayerMovement playerMovement;
     private bool isPaused = false;
@@ -16,7 +16,7 @@ public class PauseMenuHandler : MonoBehaviour
             DontDestroyOnLoad(gameObject);
         }
         //else Destroy(gameObject);
-       
+      
     }*/
     private void Start()
     {

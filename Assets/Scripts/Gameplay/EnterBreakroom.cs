@@ -49,7 +49,7 @@ public class EnterBreakroom : MonoBehaviour
             {
                 Debug.Log("🚫 Cannot enter breakroom yet. Closing tasks not done.");
                 //temp:
-                SceneManager.LoadScene(breakroomSceneName);
+                //SceneManager.LoadScene(breakroomSceneName);
             }
         }
     }

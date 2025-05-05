@@ -17,6 +17,7 @@ public class CustomerManager : MonoBehaviour
     private static TaskStressManager stressManager;
 
     public GameObject clock;
+    public GameObject voice;
 
     private void Awake()
     {
@@ -214,6 +215,7 @@ public class CustomerManager : MonoBehaviour
         }
 
         GameObject customer = Instantiate(customerPrefab, spawnTransform.position, Quaternion.identity);
+        voice.GetComponent<AudioSource>().Play(); //play gibberish sound
         if (customer != null)
         {
             activeCustomers.Enqueue(customer);

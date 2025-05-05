@@ -25,8 +25,10 @@ public class FOVUI : MonoBehaviour
     }*/
     void Start()
     {
+        
         mainCamera = GameObject.Find("Camera");
         realCamera = mainCamera.GetComponent<Camera>();
+        SetFOV(60f);
         zoomAMT = PlayerPrefs.GetFloat("FOV", zoomAMT);
     }
 

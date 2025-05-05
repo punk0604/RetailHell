@@ -3,23 +3,47 @@ using UnityEngine;
 public class VendingMachineInteraction : MonoBehaviour
 {
     private bool playerInRange = false;
+    private bool isUIShown = false;
 
     [Header("UI Panel for Shop")]
     public GameObject shopUI;
+
+    [Header("Player Movement Script")]
+    public PlayerMovement playerMovement; // Assign your PlayerMovement script here
 
     void Update()
     {
         if (playerInRange && Input.GetKeyDown(KeyCode.E))
         {
-            if (shopUI != null)
+            if (shopUI != null && playerMovement != null)
             {
-                bool isActive = shopUI.activeSelf;
-                shopUI.SetActive(!isActive);
-                Debug.Log("Vending Machine: Shop UI toggled.");
+                isUIShown = !isUIShown; // Toggle the UI state
+                shopUI.SetActive(isUIShown);
+                playerMovement.inputLocked = isUIShown; // Set inputLocked based on UI state
+
+                Debug.Log("Vending Machine: Shop UI toggled. Input Locked: " + isUIShown);
+
+                if (isUIShown)
+                {
+                    Cursor.lockState = CursorLockMode.None;
+                    Cursor.visible = true;
+                }
+                else
+                {
+                    Cursor.lockState = CursorLockMode.Locked;
+                    Cursor.visible = false;
+                }
             }
             else
             {
-                Debug.LogWarning("Vending Machine: Shop UI not assigned.");
+                if (shopUI == null)
+                {
+                    Debug.LogWarning("Vending Machine: Shop UI not assigned.");
+                }
+                if (playerMovement == null)
+                {
+                    Debug.LogWarning("Vending Machine: PlayerMovement script not assigned.");
+                }
             }
         }
     }
@@ -43,7 +67,14 @@ public class VendingMachineInteraction : MonoBehaviour
 
             if (shopUI != null)
             {
-                shopUI.SetActive(false); // Optional: hide UI when leaving
+                shopUI.SetActive(false);
+                isUIShown = false; // Ensure UI state is reset on exit
+                if (playerMovement != null)
+                {
+                    playerMovement.inputLocked = false; // Unlock input when leaving range
+                    Cursor.lockState = CursorLockMode.Locked;
+                    Cursor.visible = false;
+                }
             }
 
             Debug.Log("Player left vending machine range.");

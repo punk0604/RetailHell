@@ -11,6 +11,8 @@ public class VendingMachineInteraction : MonoBehaviour
     [Header("Player Movement Script")]
     public PlayerMovement playerMovement; // Assign your PlayerMovement script here
 
+    public GameObject beepSound;
+
     void Update()
     {
         if (playerInRange && Input.GetKeyDown(KeyCode.E))
@@ -20,6 +22,7 @@ public class VendingMachineInteraction : MonoBehaviour
                 isUIShown = !isUIShown; // Toggle the UI state
                 shopUI.SetActive(isUIShown);
                 playerMovement.inputLocked = isUIShown; // Set inputLocked based on UI state
+                beepSound.GetComponent<AudioSource>().Play();
 
                 Debug.Log("Vending Machine: Shop UI toggled. Input Locked: " + isUIShown);
 

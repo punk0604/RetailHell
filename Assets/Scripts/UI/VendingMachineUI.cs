@@ -27,6 +27,10 @@ public class VendingMachineUI : MonoBehaviour
 
     private bool isUIActive = false;
 
+    public GameObject uiSound;
+    public GameObject vendingSound;
+    public GameObject errorSound;
+
     void Start()
     {
         vendingUI.SetActive(false); // Hide UI on load
@@ -90,18 +94,21 @@ public class VendingMachineUI : MonoBehaviour
 
     public void AddEnergyDrink()
     {
+        uiSound.GetComponent<AudioSource>().Play();
         energyDrinkCount++;
         UpdateUI();
     }
 
     public void AddSnackBar()
     {
+        uiSound.GetComponent<AudioSource>().Play();
         snackBarCount++;
         UpdateUI();
     }
 
     public void AddZenSoda()
     {
+        uiSound.GetComponent<AudioSource>().Play();
         zenSodaCount++;
         UpdateUI();
     }
@@ -110,12 +117,14 @@ public class VendingMachineUI : MonoBehaviour
     {
         if (GameManager.Instance.paycheck >= totalCost)
         {
+            vendingSound.GetComponent<AudioSource>().Play();
             GameManager.Instance.paycheck -= totalCost;
             Debug.Log("✅ Items purchased!");
             ResetCart();
         }
         else
         {
+            errorSound.GetComponent<AudioSource>().Play();
             Debug.LogWarning("🚫 Not enough paycheck.");
         }
 

@@ -7,6 +7,11 @@ public class PlayerItemUse : MonoBehaviour
     public GameObject zenSodaEffect;
     public GameObject snackBarEffect;
 
+    public GameObject energySound;
+    public GameObject sodaSound;
+    public GameObject snackSound;
+    public GameObject errorSound;
+
     private bool noStressActive = false;
 
     void Update()
@@ -19,10 +24,12 @@ public class PlayerItemUse : MonoBehaviour
                 playerMovement.ApplySpeedBoost(60f);
                 Instantiate(energyDrinkEffect, transform.position, Quaternion.identity);
                 Debug.Log("Used Energy Drink: +Speed for 1 minute");
+                energySound.GetComponent<AudioSource>().Play();
             }
             else
             {
                 Debug.Log("No Energy Drinks.");
+                errorSound.GetComponent<AudioSource>().Play();
             }
         }
 
@@ -36,10 +43,12 @@ public class PlayerItemUse : MonoBehaviour
                 TaskStressManager stressManager = FindObjectOfType<TaskStressManager>();
                 if (stressManager != null) stressManager.DisableStressForShift();
                 Debug.Log("Used Zen Soda: No stress for the rest of shift.");
+                sodaSound.GetComponent<AudioSource>().Play();
             }
             else
             {
                 Debug.Log("No Zen Sodas.");
+                errorSound.GetComponent<AudioSource>().Play();
             }
         }
 
@@ -52,10 +61,12 @@ public class PlayerItemUse : MonoBehaviour
                 Instantiate(snackBarEffect, transform.position, Quaternion.identity);
                 if (stressManager != null) stressManager.IncreaseStressCap(5);
                 Debug.Log("Used Snack Bar: +5 stress cap.");
+                snackSound.GetComponent<AudioSource>().Play();
             }
             else
             {
                 Debug.Log("No Snack Bars.");
+                errorSound.GetComponent<AudioSource>().Play();
             }
         }
     }

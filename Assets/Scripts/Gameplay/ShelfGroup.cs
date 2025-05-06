@@ -45,6 +45,7 @@ public class ShelfGroup : MonoBehaviour
             }
             else
             {
+                GameObject.Find("ErrorSound").GetComponent<AudioSource>().Play();
                 Debug.Log("🚫 Cannot restock shelf. Must return to stockpile first.");
                 
             }

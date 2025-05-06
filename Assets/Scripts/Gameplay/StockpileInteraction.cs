@@ -21,6 +21,7 @@ public class StockpileInteraction : MonoBehaviour
             }
             else
             {
+                GameObject.Find("ErrorSound").GetComponent<AudioSource>().Play();
                 Debug.LogWarning($"🚫 Stockpile: Cannot access during {shiftSystem.currentPhase}.");
             }
         }

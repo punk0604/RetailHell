@@ -967,7 +967,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: "Controls: \n\t\tBasic Functions:\t\t\tExtras:\n\t\tW/A/S/D - Movement\t\t\t1
     - Energy Drink Upgrade\n\t\tSpaceBar - Jump\t\t\t2 - Zen Soda Upgrade\n\t\tL-Shift
-    - Sprint\t\t\t\t3 - Snack Bar Upgrade\n\t\tE - Interact\n\t\tJ - Complete Customer\n\t\tESC
+    - Sprint\t\t\t\t3 - Snack Bar Upgrade\n\t\tE - Interact/Complete Customer\n\t\tESC
     - Pause"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

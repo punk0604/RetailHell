@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using System.Collections.Generic;
+using System.Numerics;
 
 public class TaskListUI : MonoBehaviour
 {
@@ -77,6 +78,10 @@ public class TaskListUI : MonoBehaviour
                 AddTask("Turn off Lights", lightSwitch.IsTaskComplete());
                 AddTask("Close Registers", CountCompleted(closingRegisters), closingRegisters.Length);
                 AddRestockProgress();
+                break;
+            case ShiftSystem.ShiftPhase.Break:
+                AddTask("Tasks Complete!", true);
+                AddTask("Enter the breakroom in the back when ready!", true);
                 break;
         }
     }
@@ -160,6 +165,7 @@ public class TaskListUI : MonoBehaviour
             case ShiftSystem.ShiftPhase.Active:
                 UpdateCustomerCounter();
                 break;
+
         }
     }
 

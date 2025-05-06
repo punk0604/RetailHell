@@ -1103,10 +1103,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "How to Play: In Retail Hell, begin each day by completing opening tasks
-    to get the store \nready. Once customers arrive, juggle their demands, restock
-    shelves, and manage stress \nto make it through the shift. After the rush, finish
-    closing duties before heading to the \nbreak room to spend your hard-earned paycheck.
-    Survive as many shifts as you can in \nthe chaos of retail!\r\n"
+    to get the store \nready. Once customers arrive, find where they are located
+    and press \"E\" to serve them. the \nmore customers show up, the more stressed
+    you get, if your stress maxes out, it's game over.\nto make it through the shift.
+    After the rush, finish closing duties before heading to the \nbreak room to spend
+    your hard-earned paycheck on some powerups Survive as many \nshifts as you can
+    in the chaos of retail!\r\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

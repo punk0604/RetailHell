@@ -70,6 +70,21 @@ public class TaskStressManager : MonoBehaviour
         Debug.Log("Stress disabled for current shift.");
     }
 
+    public void ResetStress()
+    {
+        currentTasks = 0;
+        targetStress = 0f;
+
+        if (stressBar != null)
+        {
+            stressBar.BarValue = 0f;
+        }
+
+        Debug.Log("Stress reset to 0.");
+    }
+
+
+
 }
 
 

@@ -1,4 +1,4 @@
-using UnityEngine;
+/*using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class EnterBreakroom : MonoBehaviour
@@ -29,7 +29,7 @@ public class EnterBreakroom : MonoBehaviour
     /*private void Start()
     {
         fovui = PauseCan.GetComponent<FOVUI>();
-    }*/
+    }
 
 
 
@@ -98,3 +98,4 @@ public class EnterBreakroom : MonoBehaviour
         return true;
     }
 }
+*/

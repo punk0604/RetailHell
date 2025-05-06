@@ -11,20 +11,17 @@ public class ShiftSystem : MonoBehaviour
     public string closingTaskUIName = "ClosingTaskUI";
 
     [Header("Task Parent Names")]
-    public string openingTasksName = "Tasks";
-    public string closingTasksName = "Tasks";
+    public string taskParentName = "Tasks"; // Unified task object
 
     [Header("System Names")]
     public string customerManagerName = "CustomerManager";
     public string shelfManagerName = "ShelfManager";
 
-    // Cached references
-    public GameObject openingTaskUI { get; private set; }
-    public GameObject closingTaskUI { get; private set; }
-    public GameObject openingTasks { get; private set; }
-    public GameObject closingTasks { get; private set; }
-    public CustomerManager customerManager { get; private set; }
-    public ShelfManager shelfManager { get; private set; }
+    [HideInInspector] public GameObject openingTaskUI;
+    [HideInInspector] public GameObject closingTaskUI;
+    [HideInInspector] public GameObject tasks;
+    [HideInInspector] public CustomerManager customerManager;
+    [HideInInspector] public ShelfManager shelfManager;
 
     private void OnEnable()
     {
@@ -36,15 +33,17 @@ public class ShiftSystem : MonoBehaviour
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
+    private void Awake()
+    {
+        AssignReferences();
+    }
+
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        Debug.Log($"ShiftSystem: Scene loaded: {scene.name}");
+        AssignReferences();
 
         if (scene.name != "breakRoom")
         {
-            // Find dependencies in the newly loaded scene
-            Awake();
-
             if (currentPhase == ShiftPhase.Break)
             {
                 Debug.Log("Returning from Breakroom. Resetting shift.");
@@ -58,35 +57,21 @@ public class ShiftSystem : MonoBehaviour
         }
     }
 
-    private void Awake()
-    {
-        if (openingTasks == null)
-            openingTasks = GameObject.Find("Tasks"); 
-        if (closingTasks == null)
-            closingTasks = GameObject.Find("Tasks");
-
-        if (openingTaskUI == null)
-            openingTaskUI = GameObject.Find("OpeningTaskUI");
-
-        if (closingTaskUI == null)
-            closingTaskUI = GameObject.Find("ClosingTaskUI");
-
-        if (customerManager == null)
-            customerManager = FindObjectOfType<CustomerManager>();
-
-        if (shelfManager == null)
-            shelfManager = FindObjectOfType<ShelfManager>();
-    }
-
-
     private void Start()
     {
-        // Find dependencies on initial scene load as well
         if (SceneManager.GetActiveScene().name != "breakRoom")
         {
-            Awake();
             StartOpening();
         }
+    }
+
+    void AssignReferences()
+    {
+        tasks = GameObject.Find(taskParentName);
+        openingTaskUI = GameObject.Find(openingTaskUIName);
+        closingTaskUI = GameObject.Find(closingTaskUIName);
+        customerManager = FindObjectOfType<CustomerManager>();
+        shelfManager = FindObjectOfType<ShelfManager>();
     }
 
     private void Update()
@@ -94,7 +79,7 @@ public class ShiftSystem : MonoBehaviour
         switch (currentPhase)
         {
             case ShiftPhase.Opening:
-                if (AllTasksComplete(openingTasks)) CompleteOpening();
+                if (AllTasksComplete(tasks)) CompleteOpening();
                 break;
             case ShiftPhase.Active:
                 if (customerManager != null && customerManager.IsSpawningComplete()) StopActivePhase();
@@ -103,7 +88,7 @@ public class ShiftSystem : MonoBehaviour
                 if (customerManager != null && customerManager.AllCustomersCompleted()) StartClosing();
                 break;
             case ShiftPhase.Closing:
-                if (AllTasksComplete(closingTasks)) CompleteClosing();
+                if (AllTasksComplete(tasks)) CompleteClosing();
                 break;
         }
     }
@@ -111,17 +96,11 @@ public class ShiftSystem : MonoBehaviour
     void StartOpening()
     {
         currentPhase = ShiftPhase.Opening;
-
         if (openingTaskUI != null) openingTaskUI.SetActive(true);
         if (closingTaskUI != null) closingTaskUI.SetActive(false);
-
         if (customerManager != null) customerManager.gameObject.SetActive(false);
         if (shelfManager != null) shelfManager.StopRemovingItems();
-
-        if (openingTasks == null)
-            Debug.LogWarning("ShiftSystem: OpeningTasks not set at StartOpening.");
     }
-
 
     void CompleteOpening()
     {
@@ -138,6 +117,7 @@ public class ShiftSystem : MonoBehaviour
             customerManager.StartSpawning();
         }
         if (shelfManager != null) shelfManager.StartRemovingItems();
+
         Debug.Log("Active shift started: Customers spawning + shelf items disappearing.");
     }
 
@@ -180,18 +160,27 @@ public class ShiftSystem : MonoBehaviour
         return true;
     }
 
-    void ResetShift()
+    public void ResetShift()
     {
-        void ResetShift()
-{
-    currentPhase = ShiftPhase.Opening;
-    StartOpening();
-}
+        Debug.Log("🔁 ShiftSystem: Resetting shift after Breakroom.");
+        AssignReferences(); // Ensure all tasks are found again
+        currentPhase = ShiftPhase.Opening;
 
+        if (openingTaskUI != null) openingTaskUI.SetActive(false);
+        if (closingTaskUI != null) closingTaskUI.SetActive(false);
+
+        if (tasks != null)
+        {
+            foreach (ShiftTask task in tasks.GetComponentsInChildren<ShiftTask>(true))
+            {
+                task.ResetTask();
+            }
+        }
+
+        StartOpening();
     }
-
-
 }
+
 
 
 

@@ -115,10 +115,16 @@ public class VendingMachineUI : MonoBehaviour
 
     public void ConfirmPurchase()
     {
-        if (GameManager.Instance.paycheck > totalCost)
+        if (GameManager.Instance.paycheck >= totalCost) 
         {
             GameManager.Instance.paycheck -= totalCost;
-            Debug.Log("✅ Items purchased!");
+
+            // Add items to inventory
+            GameManager.Instance.AddToInventory("EnergyDrink", energyDrinkCount);
+            GameManager.Instance.AddToInventory("SnackBar", snackBarCount);
+            GameManager.Instance.AddToInventory("ZenSoda", zenSodaCount);
+
+            Debug.Log("✅ Items purchased and added to inventory.");
             ResetCart();
             vendingSound.GetComponent<AudioSource>().Play();
         }
@@ -128,8 +134,9 @@ public class VendingMachineUI : MonoBehaviour
             errorSound.GetComponent<AudioSource>().Play();
         }
 
-        UpdateUI();
+        UpdateUI(); // Refresh displayed counts
     }
+
     public void clearOrder()
     {
         energyDrinkCount = 0;

@@ -74,7 +74,8 @@ public class BreakroomDoorInteraction : MonoBehaviour
         {
             GameObject.Find("UI button sound").GetComponent<AudioSource>().Play();
             Debug.Log($"Loading scene: {retailStore}");
-            SceneManager.LoadScene(retailStore);
+            SceneManager.LoadScene("retailStore", LoadSceneMode.Single);
+
         }
         else
         {

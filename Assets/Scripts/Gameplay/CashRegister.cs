@@ -49,5 +49,12 @@ public class CashRegister : MonoBehaviour, ShiftTask
         if (other.CompareTag("Player")) playerInRange = false;
         InteractionPromptUI.Instance?.Hide();
     }
+
+    public void ResetTask()
+    {
+        isOpened = false;
+        isClosed = false;
+    }
+
 }
 

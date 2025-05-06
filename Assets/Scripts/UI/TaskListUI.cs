@@ -10,7 +10,7 @@ public class TaskListUI : MonoBehaviour
     public GameObject taskTextPrefab;
 
     [Header("Active Phase Settings")]
-    public CustomerManager customerManager;  // ✅ Now uses CustomerManager
+    public CustomerManager customerManager;
     private TMP_Text customerCounterText;
 
     [Header("Task References")]

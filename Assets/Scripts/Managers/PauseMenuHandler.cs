@@ -18,6 +18,13 @@ public class PauseMenuHandler : MonoBehaviour
         //else Destroy(gameObject);
       
     }*/
+
+    private void Awake()
+    {
+        if (pausePanel == null)
+            pausePanel = GameObject.Find("PausePanel");
+    }
+
     private void Start()
     {
         if (pausePanel != null)

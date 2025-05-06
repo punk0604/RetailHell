@@ -9,6 +9,29 @@ public class StockpileInteraction : MonoBehaviour
     public ShelfManager shelfManager;
     public ShiftSystem shiftSystem;
 
+    private void Awake()
+    {
+        // Attempt to assign ShelfManager if not already assigned
+        if (shelfManager == null)
+        {
+            shelfManager = FindObjectOfType<ShelfManager>();
+            if (shelfManager != null)
+                Debug.Log("✅ StockpileInteraction: ShelfManager assigned via FindObjectOfType.");
+            else
+                Debug.LogWarning("⚠️ StockpileInteraction: ShelfManager NOT found!");
+        }
+
+        // Attempt to assign ShiftSystem if not already assigned
+        if (shiftSystem == null)
+        {
+            shiftSystem = FindObjectOfType<ShiftSystem>();
+            if (shiftSystem != null)
+                Debug.Log("✅ StockpileInteraction: ShiftSystem assigned via FindObjectOfType.");
+            else
+                Debug.LogWarning("⚠️ StockpileInteraction: ShiftSystem NOT found!");
+        }
+    }
+
     private void Update()
     {
         if (playerInRange && Input.GetKeyDown(KeyCode.E))

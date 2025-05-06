@@ -184,6 +184,15 @@ public class ShelfManager : MonoBehaviour, ShiftTask
         }
         return count;
     }
+    public void ResetTask()
+    {
+        foreach (ShelfItem item in shelfItems)
+        {
+            item.ResetItem();
+        }
+    }
+
+
 
 }
 

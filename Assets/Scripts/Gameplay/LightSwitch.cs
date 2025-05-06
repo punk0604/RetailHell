@@ -71,6 +71,13 @@ public class LightSwitch : MonoBehaviour, ShiftTask
             playerInRange = false;
             InteractionPromptUI.Instance?.Hide();
     }
+
+    public void ResetTask()
+    {
+        lightsOn = false;
+        SetLights(false);
+    }
+
 }
 
 

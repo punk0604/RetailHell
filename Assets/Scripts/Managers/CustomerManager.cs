@@ -12,12 +12,14 @@ public class CustomerManager : MonoBehaviour
     private float spawnTimer = 0f;
     private float intervalTimer = 0f;
     private bool isSpawningAllowed = false;
+    private bool playerInRange = false;
 
     private Queue<GameObject> activeCustomers = new Queue<GameObject>();
     private static TaskStressManager stressManager;
 
     public GameObject clock;
     public GameObject voice;
+    public GameObject serve;
 
     private void Awake()
     {
@@ -154,10 +156,11 @@ public class CustomerManager : MonoBehaviour
         }
 
         // Press J to complete the oldest customer
-        if (Input.GetKeyDown(KeyCode.J) && activeCustomers.Count > 0)
+        if (Input.GetKeyDown(KeyCode.J) && activeCustomers.Count > 0) // && (customerPrefab.GetComponent<CustomerTask>().playerInRange == true)
         {
             Debug.Log("CustomerManager: 'J' key pressed. Attempting to complete the oldest customer. Active queue count: " + activeCustomers.Count);
             GameObject oldest = activeCustomers.Dequeue();
+            serve.GetComponent<AudioSource>().Play(); //play ka-ching sound
             if (stressManager != null)
             {
                 stressManager.RemoveTask();

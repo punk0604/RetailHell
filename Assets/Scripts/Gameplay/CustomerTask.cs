@@ -6,6 +6,7 @@ public class CustomerTask : MonoBehaviour
     private float waitTimer;
     private bool taskComplete = false;
     private TaskStressManager stressManager;
+    public bool playerInRange = false;
 
     private void Start()
     {
@@ -43,6 +44,23 @@ public class CustomerTask : MonoBehaviour
         { GameManager.Instance.AddPaycheck(5); }
 
         Destroy(gameObject);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            playerInRange = true;
+            Debug.Log("Stockpile: Player ENTERED customer range.");
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            playerInRange = false;
+            Debug.Log("Stockpile: Player EXITED customer range.");
+        }
     }
 }
 

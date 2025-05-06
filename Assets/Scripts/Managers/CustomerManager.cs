@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CustomerManager : MonoBehaviour
@@ -12,14 +14,17 @@ public class CustomerManager : MonoBehaviour
     private float spawnTimer = 0f;
     private float intervalTimer = 0f;
     private bool isSpawningAllowed = false;
-    private bool playerInRange = false;
+    //private bool playerInRange = false;
 
-    private Queue<GameObject> activeCustomers = new Queue<GameObject>();
+    private static int numCustomers = 10;
+    //private Queue<GameObject> activeCustomers = new Queue<GameObject>();
+    private GameObject[] activeCustomers = new GameObject[numCustomers];
     private static TaskStressManager stressManager;
 
     public GameObject clock;
     public GameObject voice;
     public GameObject serve;
+    private GameObject currentCustomer;
 
     private void Awake()
     {
@@ -115,9 +120,15 @@ public class CustomerManager : MonoBehaviour
 
     public bool AllCustomersCompleted()
     {
-        bool allCompleted = activeCustomers.Count == 0;
-        Debug.Log("CustomerManager: AllCustomersCompleted called. Active customer count: " + activeCustomers.Count + ". Returning: " + allCompleted);
+        bool allCompleted = false;
+        int remaining = GetRemainingCustomers();
+        if (remaining == 0)
+        {
+            return allCompleted = true;
+        }
+        Debug.Log("CustomerManager: AllCustomersCompleted called. Active customer count: " + remaining);
         return allCompleted;
+
     }
 
     public bool IsSpawningComplete()
@@ -155,43 +166,55 @@ public class CustomerManager : MonoBehaviour
             intervalTimer = spawnInterval;
         }
 
-        // Press J to complete the oldest customer
-        if (Input.GetKeyDown(KeyCode.J) && activeCustomers.Count > 0) // && (customerPrefab.GetComponent<CustomerTask>().playerInRange == true)
-        {
-            Debug.Log("CustomerManager: 'J' key pressed. Attempting to complete the oldest customer. Active queue count: " + activeCustomers.Count);
-            GameObject oldest = activeCustomers.Dequeue();
-            serve.GetComponent<AudioSource>().Play(); //play ka-ching sound
-            if (stressManager != null)
-            {
-                stressManager.RemoveTask();
-                Debug.Log("CustomerManager: Removed a task from StressManager.");
-            }
-            else
-            {
-                Debug.LogWarning("CustomerManager: StressManager is null, cannot remove task.");
-            }
+        for (int i = 0; i < 10; i++) {
+            int remaining = GetRemainingCustomers();
+            if (activeCustomers[i] != null) {
+                GameObject currentCustomer = activeCustomers[i];
+                if (currentCustomer.GetComponent<CustomerTask>().playerInRange == true)
+                {
+                    InteractionPromptUI.Instance?.Show("Press E to Serve Customer");
 
-            if (oldest != null)
-            {
-                CustomerTask task = oldest.GetComponent<CustomerTask>();
-                if (task != null)
-                {
-                    Debug.Log("CustomerManager: Found CustomerTask component on the oldest customer. Calling CompleteTask.");
-                    task.CompleteTask();
-                }
-                else
-                {
-                    Debug.LogWarning("CustomerManager: Oldest customer does not have a CustomerTask component.");
+                    // Press J to complete the oldest customer
+                    if (Input.GetKeyDown(KeyCode.E) && remaining > 0) // && (customerPrefab.GetComponent<CustomerTask>().playerInRange == true)
+                    {
+                        Debug.Log("CustomerManager: 'E' key pressed. Attempting to complete the customer. Active customer count: " + activeCustomers.Length);
+                        
+                        serve.GetComponent<AudioSource>().Play(); //play ka-ching sound
+                        if (stressManager != null)
+                        {
+                            stressManager.RemoveTask();
+                            Debug.Log("CustomerManager: Removed a task from StressManager.");
+                        }
+                        else
+                        {
+                            Debug.LogWarning("CustomerManager: StressManager is null, cannot remove task.");
+                        }
+
+                        if (currentCustomer != null)
+                        {
+                            CustomerTask task = currentCustomer.GetComponent<CustomerTask>();
+                            if (task != null)
+                            {
+                                Debug.Log("CustomerManager: Found CustomerTask component on the oldest customer. Calling CompleteTask.");
+                                task.CompleteTask();
+                                activeCustomers[i] = null;
+                            }
+                            else
+                            {
+                                Debug.LogWarning("CustomerManager: Oldest customer does not have a CustomerTask component.");
+                            }
+                        }
+                        else
+                        {
+                            Debug.LogError("CustomerManager: Dequeued customer is null!");
+                        }
+                    }
+                    else if (Input.GetKeyDown(KeyCode.J) && remaining == 0)
+                    {
+                        Debug.Log("CustomerManager: 'J' key pressed, but no active customers to complete.");
+                    }
                 }
             }
-            else
-            {
-                Debug.LogError("CustomerManager: Dequeued customer is null!");
-            }
-        }
-        else if (Input.GetKeyDown(KeyCode.J) && activeCustomers.Count == 0)
-        {
-            Debug.Log("CustomerManager: 'J' key pressed, but no active customers to complete.");
         }
     }
 
@@ -209,8 +232,9 @@ public class CustomerManager : MonoBehaviour
             return;
         }
 
-        int index = Random.Range(0, spawnPoints.Length);
+        int index = UnityEngine.Random.Range(0, 10);
         Transform spawnTransform = spawnPoints[index];
+        
         if (spawnTransform == null)
         {
             Debug.LogError("CustomerManager: Selected spawn point at index " + index + " is null!");
@@ -221,8 +245,8 @@ public class CustomerManager : MonoBehaviour
         voice.GetComponent<AudioSource>().Play(); //play gibberish sound
         if (customer != null)
         {
-            activeCustomers.Enqueue(customer);
-            Debug.Log("CustomerManager: New customer instantiated at " + spawnTransform.position + ". Active queue count: " + activeCustomers.Count);
+            activeCustomers[index] = customer;
+            Debug.Log("CustomerManager: New customer instantiated at " + spawnTransform.position + ". Active queue count: " + activeCustomers.Length);
 
             // Optional: Add a CustomerTask component if it doesn't exist
             CustomerTask taskComponent = customer.GetComponent<CustomerTask>();
@@ -240,8 +264,16 @@ public class CustomerManager : MonoBehaviour
 
     public int GetRemainingCustomers()
     {
-        Debug.Log("CustomerManager: GetRemainingCustomers called. Returning: " + activeCustomers.Count);
-        return activeCustomers.Count;
+        int remaining = 0;
+        for(int i = 0; i<10; i++)
+        {
+            if(activeCustomers[i] != null)
+            {
+                remaining++;
+            }
+        }
+        Debug.Log("CustomerManager: GetRemainingCustomers called. Returning: " + remaining);
+        return remaining;
     }
 }
 

@@ -17,9 +17,9 @@ public class ClosingPhaseColliderActivator : MonoBehaviour
 
     void Update()
     {
-        if (shiftSystem != null && targetCollider != null)
+        if (shiftSystem != null && targetCollider != null && (shiftSystem.currentPhase == ShiftSystem.ShiftPhase.Closing))
         {
-            targetCollider.enabled = shiftSystem.currentPhase == ShiftSystem.ShiftPhase.Closing;
+            targetCollider.enabled = true;
         }
     }
 }

@@ -15,7 +15,7 @@ public class ZoneTeleporter : MonoBehaviour
         {
             if (shiftSystem != null &&
                 (shiftSystem.currentPhase == ShiftSystem.ShiftPhase.Closing ||
-                 shiftSystem.currentPhase == ShiftSystem.ShiftPhase.Break))
+                 /*shiftSystem.currentPhase == ShiftSystem.ShiftPhase.Break*/))
             {
                 TeleportPlayer();
             }

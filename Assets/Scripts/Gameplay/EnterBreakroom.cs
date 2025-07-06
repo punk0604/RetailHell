@@ -1,12 +1,12 @@
-/*using UnityEngine;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class EnterBreakroom : MonoBehaviour
 {
     private bool playerInRange = false;
-    //public GameObject PauseCan;
-    //public static FOVUI fovui;
-    //public static EnterBreakroom instance;
+    public GameObject PauseCan;
+    public static FOVUI fovui;
+    public static EnterBreakroom instance;
 
     [Header("Scene Settings")]
     public string breakroomSceneName = "Breakroom";
@@ -14,7 +14,7 @@ public class EnterBreakroom : MonoBehaviour
     [Header("References")]
     public ShiftSystem shiftSystem;
 
-    /*private void Awake() //make sure the sound can play across scenes
+    private void Awake() //make sure the sound can play across scenes
     {
         if (instance != null)
         {
@@ -25,8 +25,8 @@ public class EnterBreakroom : MonoBehaviour
             instance = this;
             DontDestroyOnLoad(gameObject);
         }
-    }*/
-    /*private void Start()
+    }
+    private void Start()
     {
         fovui = PauseCan.GetComponent<FOVUI>();
     }
@@ -86,9 +86,9 @@ public class EnterBreakroom : MonoBehaviour
     //double-check if closing tasks are done
     private bool AreClosingTasksComplete()
     {
-        if (shiftSystem.closingTasks == null) return false;
+        if (shiftSystem.tasks == null) return false;
 
-        ShiftTask[] tasks = shiftSystem.closingTasks.GetComponentsInChildren<ShiftTask>();
+        ShiftTask[] tasks = shiftSystem.tasks.GetComponentsInChildren<ShiftTask>();
         foreach (ShiftTask task in tasks)
         {
             if (!task.IsTaskComplete())
@@ -98,4 +98,3 @@ public class EnterBreakroom : MonoBehaviour
         return true;
     }
 }
-*/
